@@ -1,3 +1,5 @@
+library(magrittr)
+
 config <- config::get(file = "inst/golem-config.yml")
 
 summary_data <-

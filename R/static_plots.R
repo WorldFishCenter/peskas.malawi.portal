@@ -55,7 +55,6 @@ homecard_ts_plot <- function(data, x_col = "date_month", y_col, type = "area") {
 #' @import mapdeck
 #' @import viridisLite
 hexagon_map <- function(data,
-                        mapbox_token,
                         style = "dark",
                         radius = 2000,
                         elevation_scale = 250,
@@ -64,9 +63,6 @@ hexagon_map <- function(data,
   # Calculate center coordinates
   center_lon <- median(data$lon, na.rm = TRUE)
   center_lat <- median(data$lat, na.rm = TRUE)
-
-  # Set Mapbox token
-  mapdeck::set_token(mapbox_token)
 
   # Generate the map
   mapdeck::mapdeck(

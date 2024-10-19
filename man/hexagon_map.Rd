@@ -6,7 +6,6 @@
 \usage{
 hexagon_map(
   data,
-  mapbox_token,
   style = "dark",
   radius = 2000,
   elevation_scale = 250,
@@ -17,8 +16,6 @@ hexagon_map(
 \arguments{
 \item{data}{A dataframe containing the map data with 'lat' and 'lon' columns}
 
-\item{mapbox_token}{Mapbox access token}
-
 \item{style}{Mapdeck style (default: "dark")}
 
 \item{radius}{Radius of hexagons in meters (default: 2000)}
@@ -28,6 +25,8 @@ hexagon_map(
 \item{pitch}{Map pitch in degrees (default: 45)}
 
 \item{zoom}{Initial zoom level (default: 7)}
+
+\item{mapbox_token}{Mapbox access token}
 }
 \value{
 A mapdeck object

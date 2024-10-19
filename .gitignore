@@ -1,25 +1,15 @@
-## Authentication
-auth/*
-.env*
-
-## R & Rstudio
-.Rhistory
-.Renviron
-.RData
 .Rproj.user
-.Rproj.user/
-.Rapp.history
+.Rhistory
 .RData
 .Ruserdata
-*-Ex.R
-/*.tar.gz
-/*.Rcheck/
-^.DS_Store$
 
-## Data files
-*.rds
-*.xlsx
-*.csv
-*.tsv
-/.quarto/
-docs
+/dev
+*.DS_Store
+inst/app/www/tabler.min.css
+inst/app/www/tabler.min.js
+
+auth/**
+
+load_tests/
+
+Rplots.pdf

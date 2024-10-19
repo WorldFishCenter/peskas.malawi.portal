@@ -39,8 +39,7 @@ tab_home_content <- function(){
       # Map card
       map_card(
         hexagon_map(
-          peskas.malawi.portal::map_data,
-          mapbox_token = "pk.eyJ1IjoibGFuZ2JhcnQiLCJhIjoiY2xkcGN0b3lhMDhmODNvbzQzNGlqbXI0OSJ9.JhvnRPg7hwJ5rPc5M5NChQ"
+          peskas.malawi.portal::map_data
         ),
         height = "500px"
       ),
