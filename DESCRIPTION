@@ -1,0 +1,37 @@
+Package: peskas.malawi.portal
+Title: Peskas malawi ssf dashboard
+Version: 0.0.0.9000
+Authors@R: 
+    c(person(given = "Lorenzo",
+             family = "Longobardi",
+             role = c("aut", "cre"),
+             email = "l.longobardi@cgiar.org",
+             comment = c(ORCID = "0000-0003-3126-7341")),
+      person(given = "WorldFish",
+             role = "cph"))
+Description: A web portal displaying data and insights from small fisheries in Malawi.
+License: Apache License (>= 2)
+Imports: 
+    remotes,
+    apexcharter,
+    config (>= 0.3.2),
+    dplyr,
+    golem (>= 0.4.1),
+    htmltools,
+    mapdeck,
+    mongolite,
+    RColorBrewer,
+    reactable,
+    reactablefmtr,
+    shiny (>= 1.9.1),
+    rlang,
+    scales,
+    viridisLite
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Depends: 
+    R (>= 2.10)

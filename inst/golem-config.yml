@@ -1,0 +1,21 @@
+default:
+  golem_name: peskas.malawi.portal
+  golem_version: 0.0.0.9000
+  app_prod: no
+  storage:
+    mongodb:
+      connection_string: !expr readLines('auth/mongodb-connection-string')
+      database_name: app
+      collection_name:
+        summaries: DataSummaries
+  mapbox_token: !expr readLines('auth/mapbox-token')
+
+production:
+  app_prod: yes
+  storage:
+    mongodb:
+      connection_string: !expr Sys.getenv('MONGODB_CONNECTION_STRING')
+  mapbox_token: !expr Sys.getenv('MAPBOX-TOKEN')
+
+dev:
+  golem_wd: !expr golem::pkg_path()
