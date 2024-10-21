@@ -71,9 +71,11 @@ n_catches <-
   dplyr::ungroup()
 
 homecards_plots <-
-  list(submissions = n_submissions,
-       vessels = n_vessels,
-       catches = n_catches)
+  list(
+    submissions = n_submissions,
+    vessels = n_vessels,
+    catches = n_catches
+  )
 
 usethis::use_data(homecards_plots, overwrite = TRUE)
 

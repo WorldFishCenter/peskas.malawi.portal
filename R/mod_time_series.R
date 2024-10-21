@@ -14,7 +14,7 @@ mod_catch_ts_ui <- function(id) {
     tags$div(
       class = "row",
       tags$div(
-        class = "col-md-4 col-lg-3",  # Adjust these classes to control the width
+        class = "col-md-4 col-lg-3", # Adjust these classes to control the width
         tags$div(
           class = "form-group",
           tags$label(class = "form-label", `for` = ns("district"), "Select District"),
@@ -22,8 +22,10 @@ mod_catch_ts_ui <- function(id) {
             id = ns("district"),
             class = "form-select",
             tags$option(value = "All districts", "All districts"),
-            lapply(setdiff(unique(peskas.malawi.portal::timeseries_month$sample_district), "All districts"),
-                   function(x) tags$option(value = x, x))
+            lapply(
+              setdiff(unique(peskas.malawi.portal::timeseries_month$sample_district), "All districts"),
+              function(x) tags$option(value = x, x)
+            )
           )
         )
       )
@@ -69,8 +71,8 @@ mod_catch_ts_server <- function(id) {
 
       # Then, modify the plot to include the horizontal line
       apexcharter::apex(data,
-                        type = "line",
-                        mapping = apexcharter::aes(x = date_month, y = catch_kg, group = sample_district)
+        type = "line",
+        mapping = apexcharter::aes(x = date_month, y = catch_kg, group = sample_district)
       ) %>%
         apexcharter::ax_chart(toolbar = list(show = FALSE)) %>%
         apexcharter::ax_yaxis(decimalsInFloat = 2, title = list(text = "Catch (kg)")) %>%

@@ -23,7 +23,7 @@ tabler_page <- function(..., dark = FALSE, title = NULL, favicon = NULL) {
     ),
     tags$div(
       class = "wrapper",
-      `data-bs-theme` = theme_data_attribute,  # Apply the data-bs-theme attribute
+      `data-bs-theme` = theme_data_attribute, # Apply the data-bs-theme attribute
       ...
     ),
     tags$script(

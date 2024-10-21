@@ -12,17 +12,17 @@ page_cards <- function(...) {
 }
 
 card <- function(title = "Card title", ...) {
+  tags$div(
+    class = "card",
     tags$div(
-      class = "card",
-      tags$div(
-        class = "card-body",
-        tags$h3(
-          class = "card-title",
-          title
-        ),
-        ...
-      )
+      class = "card-body",
+      tags$h3(
+        class = "card-title",
+        title
+      ),
+      ...
     )
+  )
 }
 
 
@@ -69,13 +69,13 @@ small_card <- function(title = "Card title", plot) {
 # map card
 map_card <- function(map, height = "400px") {
   tags$div(
-    class = "col-12",  # Full width on all screen sizes
+    class = "col-12", # Full width on all screen sizes
     tags$div(
-      class = "card p-0",  # Remove padding
+      class = "card p-0", # Remove padding
       style = sprintf("height: %s; overflow: hidden;", height),
       tags$div(
-        class = "card-body p-0",  # Remove padding
-        style = "height: 100%;",  # Ensure full height
+        class = "card-body p-0", # Remove padding
+        style = "height: 100%;", # Ensure full height
         map
       )
     )

@@ -95,7 +95,6 @@ hexagon_map <- function(data,
 #' @import dplyr
 #' @import scales
 district_summary_table <- function(data, color_pal = c("#ffffd9", "#c7e9b4", "#41b6c4")) {
-
   make_color_pal <- function(colors, bias = 1) {
     get_color <- grDevices::colorRamp(colors, bias = bias)
     function(x) grDevices::rgb(get_color(x), maxColorValue = 255)

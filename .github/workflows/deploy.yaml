@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - main
+      - master
+  schedule:
+    - cron:  '0 1 * * 1'
+
+name: Deploy to Google Cloud Run
+
+jobs:
+  update-data:
+    name: Update dashboard data
+    runs-on: ubuntu-latest
+    container: rocker/verse:4.1.0
+    env:
+      R_CONFIG_ACTIVE: production
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      MONGODB_CONNECTION_STRING: ${{ secrets.MONGODB_CONNECTION_STRING }}
+      MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
+
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - run: git config --global --add safe.directory /__w/peskas.malawi.portal/peskas.malawi.portal
+
+      - name: Update data
+        run: |
+          Rscript -e 'install.packages(c("remotes"))'
+          Rscript -e 'remotes::install_cran(c("config", "googleCloudStorageR"), quick = TRUE)'
+          Rscript -e 'source("get_data.R")'
+      - name: Commit changes to package data
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: data/*
+

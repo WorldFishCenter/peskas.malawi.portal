@@ -20,7 +20,7 @@
 #' Requires access to peskas.malawi.portal data and a valid Mapbox token
 #'
 #' export
-tab_home_content <- function(){
+tab_home_content <- function() {
   tagList(
     page_heading(pretitle = "small scale fisheries", title = "Home"),
     page_cards(

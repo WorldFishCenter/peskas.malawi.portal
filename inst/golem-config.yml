@@ -2,6 +2,8 @@ default:
   golem_name: peskas.malawi.portal
   golem_version: 0.0.0.9000
   app_prod: no
+  deployment:
+    google_key: !expr readLines('auth/gcp-sa-peskas_ingestion-key.json')
   storage:
     mongodb:
       connection_string: !expr readLines('auth/mongodb-connection-string')
@@ -12,6 +14,8 @@ default:
 
 production:
   app_prod: yes
+  deployment:
+    google_key: !expr Sys.getenv('GCP_SA_KEY')
   storage:
     mongodb:
       connection_string: !expr Sys.getenv('MONGODB_CONNECTION_STRING')
