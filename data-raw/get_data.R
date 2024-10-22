@@ -30,7 +30,7 @@ mdb_collection_pull <- function(connection_string = NULL, collection_name = NULL
 }
 
 summary_data <-
-  peskas.malawi.portal::mdb_collection_pull(
+  mdb_collection_pull(
     connection_string = config$storage$mongodb$connection_string,
     collection_name = config$storage$mongodb$collection_name$summaries,
     db_name = config$storage$mongodb$database_name
