@@ -19,7 +19,6 @@ jobs:
       MONGODB_CONNECTION_STRING: ${{ secrets.MONGODB_CONNECTION_STRING }}
       MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
 
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -52,22 +51,21 @@ jobs:
           export_default_credentials: true
 
       - name: Authorize Docker push
-        run: gcloud auth configure-docker africa-south1-docker.pkg.dev
+        run: gcloud auth configure-docker europe-west1-docker.pkg.dev
 
       - name: Build and push app container
         env:
           GOOGLE_PROJECT: ${{ secrets.GCP_PROJECT_ID }}
         run: |
-          docker build -t africa-south1-docker.pkg.dev/peskas/peskas-malawi-shiny/${GITHUB_SHA} -f prod.Dockerfile .
-          docker push africa-south1-docker.pkg.dev/peskas/peskas-malawi-shiny/${GITHUB_SHA}
+          docker build -t europe-west1-docker.pkg.dev/${GOOGLE_PROJECT}/peskas-malawi-shiny/${GITHUB_SHA} -f prod.Dockerfile .
+          docker push europe-west1-docker.pkg.dev/${GOOGLE_PROJECT}/peskas-malawi-shiny/${GITHUB_SHA}
       - name: Deploy to Cloud Run
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0.10.3
         with:
           service: peskas-malawi-shiny
-          image: africa-south1-docker.pkg.dev/peskas/peskas-malawi-shiny/${{ github.sha }}
+          image: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/peskas-malawi-shiny/${{ github.sha }}
           flags: "--cpu=2 --memory=2048Mi --concurrency=20 --max-instances=2"
-          region: africa-south1
+          region: europe-west1
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
-
