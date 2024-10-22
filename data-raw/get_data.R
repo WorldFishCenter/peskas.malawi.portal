@@ -72,7 +72,7 @@ n_submissions <-
 
 n_vessels <-
   summary_data %>%
-  tidyr::separate_wider_delim(survey_id, delim = "-", names = c("id", "vessel", "catch")) %>%
+  tidyr::separate(survey_id, into = c("id", "vessel", "catch"), sep = "-") %>%
   dplyr::select(landing_date, id, vessel) %>%
   dplyr::distinct() %>%
   dplyr::mutate(
