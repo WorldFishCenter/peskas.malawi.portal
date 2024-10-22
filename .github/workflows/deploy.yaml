@@ -28,7 +28,7 @@ jobs:
       - name: Update data
         run: |
           Rscript -e 'install.packages(c("remotes"))'
-          Rscript -e 'remotes::install_cran(c("config", "googleCloudStorageR"), quick = TRUE)'
+          Rscript -e 'remotes::install_cran(c("config", "mongolite"), quick = TRUE)'
           Rscript -e 'source("update_data.R")'
       - name: Commit changes to package data
         uses: stefanzweifel/git-auto-commit-action@v4

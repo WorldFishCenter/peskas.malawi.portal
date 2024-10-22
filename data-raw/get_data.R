@@ -1,6 +1,4 @@
 library(magrittr)
-library(mongolite)
-
 
 config <- config::get(file = "inst/golem-config.yml")
 
