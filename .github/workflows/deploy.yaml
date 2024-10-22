@@ -64,7 +64,7 @@ jobs:
         id: deploy
         uses: google-github-actions/deploy-cloudrun@v0.10.3
         with:
-          service: peskas-zanzibar-shiny
+          service: peskas-malawi-shiny
           image: africa-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/peskas-malawi-shiny/${{ github.sha }}
           flags: "--cpu=2 --memory=2048Mi --concurrency=20 --max-instances=2"
           region: africa-south1
