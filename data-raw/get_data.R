@@ -2,6 +2,32 @@ library(magrittr)
 
 config <- config::get(file = "inst/golem-config.yml")
 
+mdb_collection_pull <- function(connection_string = NULL, collection_name = NULL, db_name = NULL) {
+  # Connect to the MongoDB collection
+  collection <- mongolite::mongo(collection = collection_name, db = db_name, url = connection_string)
+
+  # Retrieve the metadata document
+  metadata <- collection$find(query = '{"type": "metadata"}')
+
+  # Retrieve all data documents
+  data <- collection$find(query = '{"type": {"$ne": "metadata"}}')
+
+  if (nrow(metadata) > 0 && "columns" %in% names(metadata)) {
+    stored_columns <- metadata$columns[[1]]
+
+    # Ensure all stored columns exist in the data
+    for (col in stored_columns) {
+      if (!(col %in% names(data))) {
+        data[[col]] <- NA
+      }
+    }
+
+    # Reorder columns to match stored order, and include any extra columns at the end
+    data <- data[, c(stored_columns, setdiff(names(data), stored_columns))]
+  }
+
+  return(data)
+}
 
 summary_data <-
   peskas.malawi.portal::mdb_collection_pull(
