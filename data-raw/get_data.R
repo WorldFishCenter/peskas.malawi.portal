@@ -2,8 +2,9 @@ library(magrittr)
 
 config <- config::get(file = "inst/golem-config.yml")
 
+
 summary_data <-
-  mdb_collection_pull(
+  peskas.malawi.portal::mdb_collection_pull(
     connection_string = config$storage$mongodb$connection_string,
     collection_name = config$storage$mongodb$collection_name$summaries,
     db_name = config$storage$mongodb$database_name
@@ -100,3 +101,18 @@ table_data <-
   dplyr::summarise(dplyr::across(c(catch_kg, catch_price, price_kg_USD), ~ mean(.x, na.rm = TRUE)))
 
 usethis::use_data(table_data, overwrite = TRUE)
+
+
+### spider catch data ###
+
+spider_catch_data <-
+  summary_data %>%
+  dplyr::mutate(month = lubridate::month(landing_date, label = TRUE, abbr = TRUE),
+                month = as.character(month)) %>%
+  dplyr::group_by(sample_district, month) %>%
+  dplyr::summarise(catch_kg = mean(catch_kg, na.rm = T)) %>%
+  dplyr::ungroup() %>%
+  tidyr::complete(month, sample_district, fill = list(catch_kg = NA_real_))
+
+usethis::use_data(spider_catch_data, overwrite = TRUE)
+

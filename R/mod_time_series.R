@@ -74,7 +74,7 @@ mod_catch_ts_server <- function(id) {
         type = "line",
         mapping = apexcharter::aes(x = date_month, y = catch_kg, group = sample_district)
       ) %>%
-        apexcharter::ax_chart(toolbar = list(show = FALSE)) %>%
+        apexcharter::ax_chart(toolbar = list(show = TRUE)) %>%
         apexcharter::ax_yaxis(decimalsInFloat = 2, title = list(text = "Catch (kg)")) %>%
         apexcharter::ax_xaxis(type = "datetime", title = list(text = "Date")) %>%
         apexcharter::ax_legend(position = "top") %>%
