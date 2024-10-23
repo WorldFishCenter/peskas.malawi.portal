@@ -10,8 +10,6 @@ small_card(title = "Card title", plot)
 \item{title}{The title of the card}
 
 \item{plot}{The apexchart object to embed}
-
-\item{card_height}{The height of the card (e.g., "200px", "15rem")}
 }
 \value{
 A shiny tag

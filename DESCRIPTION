@@ -12,14 +12,12 @@ Authors@R:
 Description: A web portal displaying data and insights from small fisheries in Malawi.
 License: Apache License (>= 2)
 Imports: 
-    remotes,
     apexcharter,
     config (>= 0.3.2),
     dplyr,
     golem (>= 0.4.1),
     htmltools,
     mapdeck,
-    mongolite,
     RColorBrewer,
     reactable,
     reactablefmtr,

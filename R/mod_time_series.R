@@ -44,14 +44,14 @@ mod_catch_ts_server <- function(id) {
     plot_data <- reactive({
       req(input$district)
       all_districts <- peskas.malawi.portal::timeseries_month %>%
-        dplyr::group_by(date_month) %>%
+        dplyr::group_by(.data$date_month) %>%
         dplyr::summarise(
           sample_district = "All districts",
-          catch_kg = median(catch_kg, na.rm = TRUE)
+          catch_kg = stats::median(.data$catch_kg, na.rm = TRUE)
         )
       if (input$district != "All districts") {
         selected <- peskas.malawi.portal::timeseries_month %>%
-          dplyr::filter(sample_district == input$district)
+          dplyr::filter(.data$sample_district == input$district)
         dplyr::bind_rows(all_districts, selected)
       } else {
         all_districts
@@ -72,7 +72,7 @@ mod_catch_ts_server <- function(id) {
       # Then, modify the plot to include the horizontal line
       apexcharter::apex(data,
         type = "line",
-        mapping = apexcharter::aes(x = date_month, y = catch_kg, group = sample_district)
+        mapping = apexcharter::aes(x = .data$date_month, y = .data$catch_kg, group = .data$sample_district)
       ) %>%
         apexcharter::ax_chart(toolbar = list(show = TRUE)) %>%
         apexcharter::ax_yaxis(decimalsInFloat = 2, title = list(text = "Catch (kg)")) %>%

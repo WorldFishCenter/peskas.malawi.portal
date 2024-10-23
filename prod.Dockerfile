@@ -19,7 +19,6 @@ RUN install2.r --error --skipinstalled -n 2 \
     golem \
     htmltools \
     mapdeck \
-    mongolite \
     reactable \
     reactablefmtr \
     shiny \

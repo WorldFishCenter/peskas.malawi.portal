@@ -30,7 +30,7 @@ tab_home_content <- function() {
       ),
       small_card(
         title = "Vessels surveyed",
-        plot = homecard_ts_plot(peskas.malawi.portal::homecards_plots$vessels, y_col = "n_vessel")
+        plot = homecard_ts_plot(peskas.malawi.portal::homecards_plots$vessels, y_col = "n_vessels")
       ),
       small_card(
         title = "Catches recorded",

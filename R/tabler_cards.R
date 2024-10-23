@@ -30,7 +30,6 @@ card <- function(title = "Card title", ...) {
 #'
 #' @param title The title of the card
 #' @param plot The apexchart object to embed
-#' @param card_height The height of the card (e.g., "200px", "15rem")
 #'
 #' @return A shiny tag
 small_card <- function(title = "Card title", plot) {

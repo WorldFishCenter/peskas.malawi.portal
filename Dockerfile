@@ -19,14 +19,12 @@ RUN install2.r --error --skipinstalled -n 4 \
     golem \
     htmltools \
     mapdeck \
-    mongolite \
     reactable \
     reactablefmtr \
     shiny \
     rlang \
     scales \
     viridisLite
-
 
 # Final stage
 FROM rocker/shiny

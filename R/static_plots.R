@@ -44,7 +44,6 @@ homecard_ts_plot <- function(data, x_col = "date_month", y_col, type = "area") {
 #' Generate a hexagon heatmap using mapdeck
 #'
 #' @param data A dataframe containing the map data with 'lat' and 'lon' columns
-#' @param mapbox_token Mapbox access token
 #' @param style Mapdeck style (default: "dark")
 #' @param radius Radius of hexagons in meters (default: 2000)
 #' @param elevation_scale Elevation scale for 3D effect (default: 250)
@@ -61,8 +60,8 @@ hexagon_map <- function(data,
                         pitch = 45,
                         zoom = 7) {
   # Calculate center coordinates
-  center_lon <- median(data$lon, na.rm = TRUE)
-  center_lat <- median(data$lat, na.rm = TRUE)
+  center_lon <- stats::median(data$lon, na.rm = TRUE)
+  center_lat <- stats::median(data$lat, na.rm = TRUE)
 
   # Generate the map
   mapdeck::mapdeck(

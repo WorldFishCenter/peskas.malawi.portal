@@ -25,8 +25,6 @@ hexagon_map(
 \item{pitch}{Map pitch in degrees (default: 45)}
 
 \item{zoom}{Initial zoom level (default: 7)}
-
-\item{mapbox_token}{Mapbox access token}
 }
 \value{
 A mapdeck object
