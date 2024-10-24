@@ -24,7 +24,8 @@ Imports:
     shiny (>= 1.9.1),
     rlang,
     scales,
-    htmlwidgets
+    htmlwidgets,
+    V8
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

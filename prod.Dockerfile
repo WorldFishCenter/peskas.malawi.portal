@@ -24,7 +24,8 @@ RUN install2.r --error --skipinstalled -n 2 \
     shiny \
     rlang \
     scales \
-    htmlwidgets
+    htmlwidgets \
+    V8
 
 COPY inst /srv/shiny-server/inst
 COPY R /srv/shiny-server/R

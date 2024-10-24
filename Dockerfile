@@ -24,7 +24,8 @@ RUN install2.r --error --skipinstalled -n 4 \
     shiny \
     rlang \
     scales \
-    htmlwidgets
+    htmlwidgets \
+    V8
 
 # Final stage
 FROM rocker/shiny
