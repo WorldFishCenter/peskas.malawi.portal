@@ -58,3 +58,15 @@ page_heading <- function(pretitle = "Page pretitle", title = "Page title", ...) 
     )
   )
 }
+
+
+add_resource_path <- function(prefix, directoryPath, warn_empty = FALSE) {
+  list_f <- length(list.files(path = directoryPath)) == 0
+  if (list_f) {
+    if (warn_empty) {
+      warning("No resources to add from resource path (directory empty).")
+    }
+  } else {
+    shiny::addResourcePath(prefix, directoryPath)
+  }
+}

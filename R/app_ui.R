@@ -7,7 +7,8 @@
 app_ui <- function(request) {
   tagList(
     # Leave this function for adding external resources
-    golem_add_external_resources(),
+    apexchart_dep(),
+    jquery_dep(),
     # Your application UI logic
     tabler_page(
       title = "Peskas | Malawi",
@@ -70,21 +71,47 @@ app_ui <- function(request) {
 #' resources inside the Shiny application.
 #'
 #' @import shiny
-#' @importFrom golem add_resource_path activate_js favicon bundle_resources
 #' @noRd
 golem_add_external_resources <- function() {
-  add_resource_path(
-    "www",
-    app_sys("app/www")
+  shiny::addResourcePath(
+    "www", app_sys("app/www")
   )
 
   tags$head(
-    favicon(),
-    bundle_resources(
-      path = app_sys("app/www"),
-      app_title = "peskas.malawi.portal"
-    )
+    # avoiding some overhead so that we don't need to use golem in production
+    # favicon(),
+    # bundle_resources(
+    # path = app_sys('app/www'),
+    # app_title = 'peskas.timor.portal'
+    # )
     # Add here other external resources
     # for example, you can add shinyalert::useShinyalert()
+  )
+}
+
+apexchart_dep <- function() {
+  htmltools::htmlDependency(
+    name = "apexcharts",
+    version = "3.26.2",
+    src = c(href = "https://cdn.jsdelivr.net/npm/apexcharts@3.26.2/dist/"),
+    script = "apexcharts.min.js"
+  )
+}
+
+deckgl_dep <- function() {
+  htmltools::htmlDependency(
+    name = "deckgl",
+    version = "3.26.2",
+    src = c(href = "https://cdn.jsdelivr.net/npm/deck.gl@9.0.34/dist/"),
+    script = "index.js"
+  )
+}
+
+jquery_dep <- function() {
+  htmltools::htmlDependency(
+    name = "jquery",
+    version = "3.6.0",
+    src = c(href = "https://code.jquery.com/"),
+    script = "jquery-3.6.0.min.js"
   )
 }
