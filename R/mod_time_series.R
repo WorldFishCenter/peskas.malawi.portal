@@ -47,7 +47,7 @@ mod_catch_ts_server <- function(id) {
         dplyr::group_by(.data$date_month) %>%
         dplyr::summarise(
           sample_district = "All districts",
-          catch_kg = stats::median(.data$catch_kg, na.rm = TRUE)
+          `Catch (kg)` = stats::median(.data$`Catch (kg)`, na.rm = TRUE)
         )
       if (input$district != "All districts") {
         selected <- peskas.malawi.portal::timeseries_month %>%
@@ -67,15 +67,15 @@ mod_catch_ts_server <- function(id) {
       line_dasharray <- c(0, 0) # Dash patterns (0: solid, 5: dashed, etc.)
 
       # First, calculate the mean catch_kg
-      mean_catch <- mean(data$catch_kg, na.rm = TRUE)
+      mean_catch <- mean(data$`Catch (kg)`, na.rm = TRUE)
 
       # Then, modify the plot to include the horizontal line
       apexcharter::apex(data,
         type = "line",
-        mapping = apexcharter::aes(x = .data$date_month, y = .data$catch_kg, group = .data$sample_district)
+        mapping = apexcharter::aes(x = .data$date_month, y = .data$`Catch (kg)`, group = .data$sample_district)
       ) %>%
         apexcharter::ax_chart(toolbar = list(show = TRUE)) %>%
-        apexcharter::ax_yaxis(decimalsInFloat = 2, title = list(text = "Catch (kg)")) %>%
+        apexcharter::ax_yaxis(decimalsInFloat = 2, title = list(text = "Median catch (kg)")) %>%
         apexcharter::ax_xaxis(type = "datetime", title = list(text = "Date")) %>%
         apexcharter::ax_legend(position = "top") %>%
         apexcharter::ax_tooltip(x = list(format = "MMM yyyy")) %>%

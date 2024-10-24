@@ -15,7 +15,7 @@ app_ui <- function(request) {
         logo = peskas_logo(),
         version_flex(
           heading = "Management Dashboard",
-          subheading = "Malawi (v0.0.12-alpha)"
+          subheading = "Malawi (0.0.0.9000 - beta)"
         )
       ),
       tab_menu(

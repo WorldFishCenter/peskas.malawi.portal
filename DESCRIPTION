@@ -17,14 +17,14 @@ Imports:
     dplyr,
     golem (>= 0.4.1),
     htmltools,
-    mapdeck,
+    deckgl,
     RColorBrewer,
     reactable,
     reactablefmtr,
     shiny (>= 1.9.1),
     rlang,
     scales,
-    viridisLite
+    htmlwidgets
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

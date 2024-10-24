@@ -37,11 +37,11 @@ tabler_page <- function(..., dark = FALSE, title = NULL, favicon = NULL) {
 
 page_heading <- function(pretitle = "Page pretitle", title = "Page title", ...) {
   tags$div(
-    class = "page-header d-print-none",
+    class = "container-xl",
     tags$div(
-      class = "container-xl",
+      class = "page-header d-print-none",
       tags$div(
-        class = "row g-2 align-items-center",
+        class = "row align-items-center",
         tags$div(
           class = "col",
           tags$div(

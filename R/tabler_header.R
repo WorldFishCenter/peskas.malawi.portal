@@ -30,6 +30,18 @@ header <- function(..., logo = NULL) {
   )
 }
 
+
+peskas_logo <- function() {
+  htmltools::tags$div(
+    htmltools::tags$span(
+      class = "text-blue logo",
+      style = "font-weight: bolder; display: inline-block; vertical-align: middle;",
+      "PESKAS\u2122"
+    ),
+    htmltools::tags$img(width = "30", height = "20", style = "display: inline-block; vertical-align: middle; margin-right: 5px;", src = "https://upload.wikimedia.org/wikipedia/commons/d/d1/Flag_of_Malawi.svg")
+  )
+}
+
 version_flex <- function(heading = "Heading",
                          subheading = "subheading") {
   htmltools::tags$div(
@@ -39,16 +51,5 @@ version_flex <- function(heading = "Heading",
       class = "text-muted",
       subheading
     )
-  )
-}
-
-peskas_logo <- function() {
-  htmltools::tags$div(
-    htmltools::tags$span(
-      class = "text-blue logo",
-      style = "font-weight: bolder; display: inline-block; vertical-align: middle;",
-      "PESKAS\u2122"
-    ),
-    htmltools::tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/d/d1/Flag_of_Malawi.svg", width = "30", height = "20", style = "display: inline-block; vertical-align: middle; margin-right: 5px;")
   )
 }

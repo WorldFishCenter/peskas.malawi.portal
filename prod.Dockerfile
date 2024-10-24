@@ -18,13 +18,13 @@ RUN install2.r --error --skipinstalled -n 2 \
     dplyr \
     golem \
     htmltools \
-    mapdeck \
+    deckgl \
     reactable \
     reactablefmtr \
     shiny \
     rlang \
     scales \
-    viridisLite
+    htmlwidgets
 
 COPY inst /srv/shiny-server/inst
 COPY R /srv/shiny-server/R

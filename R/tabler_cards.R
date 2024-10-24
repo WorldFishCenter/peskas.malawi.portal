@@ -13,14 +13,17 @@ page_cards <- function(...) {
 
 card <- function(title = "Card title", ...) {
   tags$div(
-    class = "card",
+    class = "col-12", # Full width on all screen sizes
     tags$div(
-      class = "card-body",
-      tags$h3(
-        class = "card-title",
-        title
-      ),
-      ...
+      class = "card",
+      tags$div(
+        class = "card-body",
+        tags$h3(
+          class = "card-title",
+          title
+        ),
+        ...
+      )
     )
   )
 }

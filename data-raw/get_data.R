@@ -54,7 +54,12 @@ timeseries_month <-
     catch_kg = NA_real_,
     catch_price = NA_real_,
     price_kg_USD = NA_real_
-  ))
+  )) %>%
+  dplyr::rename(
+    "Catch (kg)" = catch_kg,
+    "Catch Value (MWK)" = catch_price,
+    "Price per kg (USD)" = price_kg_USD
+  )
 
 usethis::use_data(timeseries_month, overwrite = TRUE)
 
@@ -67,7 +72,8 @@ n_submissions <-
   ) %>%
   dplyr::group_by(date_month) %>%
   dplyr::summarise(n_submissions = dplyr::n()) %>%
-  dplyr::ungroup()
+  dplyr::ungroup() %>%
+  dplyr::rename("N. submissions" = n_submissions)
 
 
 n_vessels <-
@@ -81,7 +87,9 @@ n_vessels <-
   ) %>%
   dplyr::group_by(date_month) %>%
   dplyr::summarise(n_vessels = sum(vessel, na.rm = TRUE)) %>%
-  dplyr::ungroup()
+  dplyr::ungroup() %>%
+  dplyr::rename("Vessels surveyed" = n_vessels)
+
 
 
 n_catches <-
@@ -95,7 +103,9 @@ n_catches <-
   ) %>%
   dplyr::group_by(date_month) %>%
   dplyr::summarise(n_catches = sum(catch, na.rm = TRUE)) %>%
-  dplyr::ungroup()
+  dplyr::ungroup() %>%
+  dplyr::rename("Catches recorded" = n_catches)
+
 
 homecards_plots <-
   list(
@@ -124,7 +134,12 @@ usethis::use_data(map_data, overwrite = TRUE)
 table_data <-
   summary_data %>%
   dplyr::group_by(sample_district) %>%
-  dplyr::summarise(dplyr::across(c(catch_kg, catch_price, price_kg_USD), ~ mean(.x, na.rm = TRUE)))
+  dplyr::summarise(dplyr::across(c(catch_kg, catch_price, price_kg_USD), ~ mean(.x, na.rm = TRUE))) %>%
+  dplyr::rename(
+    "Catch (kg)" = catch_kg,
+    "Catch Value (MWK)" = catch_price,
+    "Price per kg (USD)" = price_kg_USD
+  )
 
 usethis::use_data(table_data, overwrite = TRUE)
 
@@ -138,8 +153,21 @@ spider_catch_data <-
     month = as.character(month)
   ) %>%
   dplyr::group_by(sample_district, month) %>%
-  dplyr::summarise(catch_kg = mean(catch_kg, na.rm = T)) %>%
+  dplyr::summarise(catch_kg = median(catch_kg, na.rm = T)) %>%
   dplyr::ungroup() %>%
-  tidyr::complete(month, sample_district, fill = list(catch_kg = NA_real_))
+  tidyr::complete(month, sample_district, fill = list(catch_kg = NA_real_)) %>%
+  rename(
+    "District" = sample_district,
+    "Catch (kg)" = catch_kg
+  )
+month_order <- c(
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+)
+# Ensure data is ordered correctly
+spider_catch_data <-
+  spider_catch_data %>%
+  dplyr::arrange(match(month, month_order), District)
+
 
 usethis::use_data(spider_catch_data, overwrite = TRUE)

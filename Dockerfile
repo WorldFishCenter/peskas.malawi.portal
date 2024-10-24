@@ -18,13 +18,13 @@ RUN install2.r --error --skipinstalled -n 4 \
     dplyr \
     golem \
     htmltools \
-    mapdeck \
+    deckgl \
     reactable \
     reactablefmtr \
     shiny \
     rlang \
     scales \
-    viridisLite
+    htmlwidgets
 
 # Final stage
 FROM rocker/shiny

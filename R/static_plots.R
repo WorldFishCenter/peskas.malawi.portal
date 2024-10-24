@@ -40,50 +40,88 @@ homecard_ts_plot <- function(data, x_col = "date_month", y_col, type = "area") {
 }
 
 
-
-#' Generate a hexagon heatmap using mapdeck
+#' Generate a hexagon heatmap using deckgl
 #'
 #' @param data A dataframe containing the map data with 'lat' and 'lon' columns
-#' @param style Mapdeck style (default: "dark")
-#' @param radius Radius of hexagons in meters (default: 2000)
-#' @param elevation_scale Elevation scale for 3D effect (default: 250)
+#' @param radius Radius of hexagons in meters (default: 3000)
+#' @param elevation_scale Elevation scale for 3D effect (default: 80)
 #' @param pitch Map pitch in degrees (default: 45)
 #' @param zoom Initial zoom level (default: 7)
 #'
-#' @return A mapdeck object
-#' @import mapdeck
-#' @import viridisLite
+#' @return A deckgl object
+#' @import deckgl
 hexagon_map <- function(data,
-                        style = "dark",
-                        radius = 2000,
-                        elevation_scale = 250,
+                        radius = 3000,
+                        elevation_scale = 80,
                         pitch = 45,
-                        zoom = 7) {
+                        zoom = 6.5) {
   # Calculate center coordinates
   center_lon <- stats::median(data$lon, na.rm = TRUE)
   center_lat <- stats::median(data$lat, na.rm = TRUE)
 
-  # Generate the map
-  mapdeck::mapdeck(
-    style = mapdeck::mapdeck_style(style)
+  # Define color range
+  color_range <- list(
+    c(1, 152, 189), # Light blue
+    c(73, 227, 206), # Turquoise
+    c(216, 254, 181), # Light green
+    c(254, 237, 177), # Light yellow
+    c(254, 173, 84), # Orange
+    c(209, 55, 78) # Red
+  )
+
+  # Define material properties
+  props <- list(
+    autoHighlight = TRUE,
+    material = list(
+      ambient = 0.65,
+      diffuse = 0.35,
+      specularColor = c(51, 51, 51)
+    ),
+    transitions = list(
+      elevationScale = 3000
+    )
+  )
+
+  # Simple tooltip
+  tooltip_js <- htmlwidgets::JS("object => {
+      const totalActivities = object.points.length;
+      return `
+        <div padding: 10px; border-radius: 5px;'>
+          <strong>Location:</strong> ${object.position[1].toFixed(3)}, ${object.position[0].toFixed(3)}<br>
+          <strong>Total Activities:</strong> ${totalActivities}
+        </div>
+      `;
+    }")
+
+  # Generate the map with correct sizing for your card system
+  deckgl::deckgl(
+    longitude = center_lon,
+    latitude = center_lat,
+    zoom = zoom,
+    pitch = pitch,
+    width = "100%",
+    height = "100%",
+    style = list(position = "absolute", top = 0, left = 0, right = 0, bottom = 0)
   ) %>%
-    mapdeck::add_hexagon(
-      data = data,
-      lat = "lat",
-      lon = "lon",
-      layer_id = "heatmap_layer",
-      radius = radius,
-      colour_range = RColorBrewer::brewer.pal(6, "YlGnBu"),
-      elevation_scale = elevation_scale,
-      auto_highlight = TRUE
+    deckgl::add_basemap(
+      style = deckgl::use_carto_style(theme = "dark-matter")
     ) %>%
-    mapdeck::mapdeck_view(
-      pitch = pitch,
-      location = c(center_lon, center_lat),
-      zoom = zoom
+    deckgl::add_hexagon_layer(
+      data = data,
+      getPosition = ~ c(lon, lat),
+      colorRange = color_range,
+      elevationRange = c(0, 3000),
+      elevationScale = elevation_scale,
+      extruded = TRUE,
+      radius = radius,
+      coverage = 0.8,
+      pickable = TRUE,
+      properties = props,
+      tooltip = tooltip_js,
+      colorAggregation = "SUM",
+      upperPercentile = 95
     )
 }
-
 #' Create a styled district summary table
 #'
 #' @param data A dataframe containing the summary data

@@ -2,33 +2,24 @@
 % Please edit documentation in R/static_plots.R
 \name{hexagon_map}
 \alias{hexagon_map}
-\title{Generate a hexagon heatmap using mapdeck}
+\title{Generate a hexagon heatmap using deckgl}
 \usage{
-hexagon_map(
-  data,
-  style = "dark",
-  radius = 2000,
-  elevation_scale = 250,
-  pitch = 45,
-  zoom = 7
-)
+hexagon_map(data, radius = 3000, elevation_scale = 80, pitch = 45, zoom = 6.5)
 }
 \arguments{
 \item{data}{A dataframe containing the map data with 'lat' and 'lon' columns}
 
-\item{style}{Mapdeck style (default: "dark")}
+\item{radius}{Radius of hexagons in meters (default: 3000)}
 
-\item{radius}{Radius of hexagons in meters (default: 2000)}
-
-\item{elevation_scale}{Elevation scale for 3D effect (default: 250)}
+\item{elevation_scale}{Elevation scale for 3D effect (default: 80)}
 
 \item{pitch}{Map pitch in degrees (default: 45)}
 
 \item{zoom}{Initial zoom level (default: 7)}
 }
 \value{
-A mapdeck object
+A deckgl object
 }
 \description{
-Generate a hexagon heatmap using mapdeck
+Generate a hexagon heatmap using deckgl
 }
