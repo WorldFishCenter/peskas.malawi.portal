@@ -156,7 +156,7 @@ spider_catch_data <-
   dplyr::summarise(catch_kg = median(catch_kg, na.rm = T)) %>%
   dplyr::ungroup() %>%
   tidyr::complete(month, sample_district, fill = list(catch_kg = NA_real_)) %>%
-  rename(
+  dplyr::rename(
     "District" = sample_district,
     "Catch (kg)" = catch_kg
   )
