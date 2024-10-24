@@ -136,9 +136,7 @@ district_summary_table <- function(data, color_pal = c("#ffffd9", "#c7e9b4", "#4
     get_color <- grDevices::colorRamp(colors, bias = bias)
     function(x) grDevices::rgb(get_color(x), maxColorValue = 255)
   }
-
   good_color <- make_color_pal(color_pal, bias = 2)
-
   reactable::reactable(
     data,
     theme = reactablefmtr::fivethirtyeight(centered = TRUE),
@@ -159,35 +157,35 @@ district_summary_table <- function(data, color_pal = c("#ffffd9", "#c7e9b4", "#4
         minWidth = 140,
         align = "left"
       ),
-      catch_kg = reactable::colDef(
+      `Catch (kg)` = reactable::colDef(
         name = "Catch (kg)",
         format = reactable::colFormat(digits = 1),
         style = function(value) {
-          normalized <- (value - min(data$catch_kg)) / (max(data$catch_kg) - min(data$catch_kg))
+          normalized <- (value - min(data$`Catch (kg)`)) / (max(data$`Catch (kg)`) - min(data$`Catch (kg)`))
           color <- good_color(normalized)
           list(background = color)
         }
       ),
-      catch_price = reactable::colDef(
+      `Catch Value (MWK)` = reactable::colDef(
         name = "Catch Value (MWK)",
         format = reactable::colFormat(digits = 0, separators = TRUE),
         cell = function(value) {
           scales::dollar(value, prefix = "MWK ", largest_with_cents = 1)
         },
         style = function(value) {
-          normalized <- (value - min(data$catch_price)) / (max(data$catch_price) - min(data$catch_price))
+          normalized <- (value - min(data$`Catch Value (MWK)`)) / (max(data$`Catch Value (MWK)`) - min(data$`Catch Value (MWK)`))
           color <- good_color(normalized)
           list(background = color)
         }
       ),
-      price_kg_USD = reactable::colDef(
+      `Price per kg (USD)` = reactable::colDef(
         name = "Price per kg (USD)",
         format = reactable::colFormat(digits = 2),
         cell = function(value) {
           scales::dollar(value)
         },
         style = function(value) {
-          normalized <- (value - min(data$price_kg_USD)) / (max(data$price_kg_USD) - min(data$price_kg_USD))
+          normalized <- (value - min(data$`Price per kg (USD)`)) / (max(data$`Price per kg (USD)`) - min(data$`Price per kg (USD)`))
           color <- good_color(normalized)
           list(background = color)
         }

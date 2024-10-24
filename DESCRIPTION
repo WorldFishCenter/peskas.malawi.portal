@@ -25,7 +25,8 @@ Imports:
     rlang,
     scales,
     htmlwidgets,
-    V8
+    V8,
+    grDevices
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

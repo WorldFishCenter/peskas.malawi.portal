@@ -25,7 +25,8 @@ RUN install2.r --error --skipinstalled -n 4 \
     rlang \
     scales \
     htmlwidgets \
-    V8
+    V8 \
+    grDevices
 
 # Final stage
 FROM rocker/shiny

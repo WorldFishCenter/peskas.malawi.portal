@@ -53,8 +53,7 @@ tab_home_content <- function() {
       card(
         title = "District summary",
         district_summary_table(
-          peskas.malawi.portal::table_data,
-          color_pal = RColorBrewer::brewer.pal(6, "YlGnBu")[1:4]
+          peskas.malawi.portal::table_data
         )
       )
     )
