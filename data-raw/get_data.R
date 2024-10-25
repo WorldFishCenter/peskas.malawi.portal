@@ -146,28 +146,36 @@ usethis::use_data(table_data, overwrite = TRUE)
 
 ### spider catch data ###
 
-spider_catch_data <-
+spider_data <-
   summary_data %>%
   dplyr::mutate(
     month = lubridate::month(landing_date, label = TRUE, abbr = TRUE),
     month = as.character(month)
   ) %>%
   dplyr::group_by(sample_district, month) %>%
-  dplyr::summarise(catch_kg = median(catch_kg, na.rm = T)) %>%
+  dplyr::summarise(
+    catch_kg = median(catch_kg, na.rm = TRUE),
+    catch_price = median(catch_price, na.rm = TRUE),
+    price_kg_USD = median(price_kg_USD, na.rm = TRUE)
+  ) %>%
   dplyr::ungroup() %>%
   tidyr::complete(month, sample_district, fill = list(catch_kg = NA_real_)) %>%
   dplyr::rename(
     "District" = sample_district,
-    "Catch (kg)" = catch_kg
+    "Catch (kg)" = catch_kg,
+    "Catch Value (MWK)" = catch_price,
+    "Price per kg (USD)" = price_kg_USD
   )
+
 month_order <- c(
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 )
 # Ensure data is ordered correctly
-spider_catch_data <-
-  spider_catch_data %>%
+spider_data <-
+  spider_data %>%
   dplyr::arrange(match(month, month_order), District)
 
 
-usethis::use_data(spider_catch_data, overwrite = TRUE)
+usethis::use_data(spider_data, overwrite = TRUE)
+

@@ -9,7 +9,7 @@ district_summary_table(data, color_pal = c("#ffffd9", "#c7e9b4", "#41b6c4"))
 \arguments{
 \item{data}{A dataframe containing the summary data}
 
-\item{color_pal}{Color palette for the background gradient (default: c("#f7fbff", "#08306b"))}
+\item{color_pal}{Color palette for the background gradient (default: c("#ffffd9", "#c7e9b4", "#41b6c4"))}
 }
 \value{
 A reactable object

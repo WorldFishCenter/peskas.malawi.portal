@@ -33,15 +33,15 @@ tab_home_content <- function() {
     page_cards(
       small_card(
         title = "Number of submissions",
-        plot = homecard_ts_plot(peskas.malawi.portal::homecards_plots$submissions, y_col = "N. submissions")
+        plot = homecard_ts_plot_memo(peskas.malawi.portal::homecards_plots$submissions, y_col = "N. submissions")
       ),
       small_card(
         title = "Vessels surveyed",
-        plot = homecard_ts_plot(peskas.malawi.portal::homecards_plots$vessels, y_col = "Vessels surveyed")
+        plot = homecard_ts_plot_memo(peskas.malawi.portal::homecards_plots$vessels, y_col = "Vessels surveyed")
       ),
       small_card(
         title = "Catches recorded",
-        plot = homecard_ts_plot(peskas.malawi.portal::homecards_plots$catches, y_col = "Catches recorded")
+        plot = homecard_ts_plot_memo(peskas.malawi.portal::homecards_plots$catches, y_col = "Catches recorded")
       ),
       # Map card
       map_card(

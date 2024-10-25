@@ -1,0 +1,36 @@
+#' Generate content for the revenue tab of the Malawi small scale fisheries dashboard
+#'
+#' @description
+#' This function creates the layout and content for the revenue tab of the dashboard.
+#' It includes a time series plot and a revenue distribution plot.
+#'
+#' @return A tagList containing the structured content for the catch tab
+#'
+#' @export
+tab_revenue_content <- function() {
+  tagList(
+    page_heading(
+      pretitle = "small scale fisheries",
+      title = "Revenue"
+    ),
+    page_cards(
+      tags$div(
+        class = "row",
+        tags$div(
+          class = "col-lg-8",
+          card(
+            title = "Revenue Time Series",
+            mod_ts_ui(id = "revenue_ts")
+          )
+        ),
+        tags$div(
+          class = "col-lg-4",
+          card(
+            title = "Revenue seasonal distribution",
+            mod_spider_ui("revenue_spider")
+          )
+        )
+      )
+    )
+  )
+}

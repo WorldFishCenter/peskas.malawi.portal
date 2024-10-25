@@ -20,14 +20,14 @@ tab_catch_content <- function() {
           class = "col-lg-8",
           card(
             title = "Catch Time Series",
-            mod_catch_ts_ui("catch_ts")
+            mod_ts_ui(id = "catch_ts")
           )
         ),
         tags$div(
           class = "col-lg-4",
           card(
-            title = "Catch Distribution",
-            mod_spider_catch_ui("spider_catch")
+            title = "Catch seasonal distribution",
+            mod_spider_ui("catch_spider")
           )
         )
       )

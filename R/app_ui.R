@@ -31,6 +31,12 @@ app_ui <- function(request) {
             "Catch"
           ),
           id = "catch", icon_scale()
+        ),
+        tab_menu_item(
+          label = tagList(
+            "Revenue"
+          ),
+          id = "revenue", icon_currency_dollar()
         )
       ),
       tabset_panel(
@@ -42,6 +48,10 @@ app_ui <- function(request) {
         tab_panel(
           id = "catch",
           tab_catch_content()
+        ),
+        tab_panel(
+          id = "revenue",
+          tab_revenue_content()
         )
       ),
       footer_panel(

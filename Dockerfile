@@ -26,7 +26,8 @@ RUN install2.r --error --skipinstalled -n 4 \
     scales \
     htmlwidgets \
     V8 \
-    grDevices
+    grDevices \
+    memoise
 
 # Final stage
 FROM rocker/shiny
