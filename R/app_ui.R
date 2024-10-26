@@ -6,13 +6,29 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # Load local dependencies instead of CDN dependencies
+    # Load dependencies in specific order
     tags$head(
-      tags$link(rel = "stylesheet", href = "www/vendor/tabler.min.css"),
+      # Core dependencies first
       tags$script(src = "www/vendor/jquery.min.js"),
+
+      # Then UI framework
+      tags$link(rel = "stylesheet", href = "www/vendor/tabler.min.css"),
+      tags$script(src = "www/vendor/tabler.min.js", defer = FALSE), # Remove defer to ensure it loads before others
+
+      # Then visualization libraries
       tags$script(src = "www/vendor/apexcharts.min.js"),
       tags$script(src = "www/vendor/deck.min.js"),
-      tags$script(src = "www/vendor/tabler.min.js", defer = "defer")
+
+      # Add loading check
+      tags$script("
+        window.addEventListener('load', function() {
+          if (typeof ApexCharts === 'undefined' ||
+              typeof deck === 'undefined') {
+            console.error('Required libraries not loaded');
+            location.reload();
+          }
+        });
+      ")
     ),
     # Your application UI logic
     tabler_page(

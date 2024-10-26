@@ -79,7 +79,10 @@ jobs:
            --concurrency=40
            --max-instances=10
            --min-instances=2
-
+           --timeout=300
+           --startup-cpu-boost
+           --cpu-throttling=false
+           --startup-timeout=180
           region: europe-west1
 
       - name: Show Output
