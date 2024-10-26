@@ -76,10 +76,9 @@ jobs:
           flags: >-
             --cpu=2
             --memory=6Gi
-            --concurrency=80
+            --concurrency=10
             --max-instances=10
             --min-instances=2
-            --timeout=300
             --execution-environment=gen2
           region: europe-west1
 
