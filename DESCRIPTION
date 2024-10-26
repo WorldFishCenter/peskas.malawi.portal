@@ -16,7 +16,6 @@ Imports:
     config (>= 0.3.2),
     dplyr,
     golem (>= 0.4.1),
-    htmltools,
     deckgl,
     reactable,
     reactablefmtr,
@@ -24,9 +23,9 @@ Imports:
     rlang,
     scales,
     htmlwidgets,
-    V8,
-    grDevices,
-    memoise
+    htmltools,
+    memoise,
+    magrittr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

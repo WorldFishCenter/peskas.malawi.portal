@@ -4,14 +4,11 @@ ENV HOST 0.0.0.0
 ENV SHINY_LOG_STDERR=1
 ENV SHINY_LOG_LEVEL='INFO'
 
-# install system dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    libv8-dev \
     curl \
     ca-certificates \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/ \
-    && rm -rf /tmp/downloaded_packages/ /tmp/*.rds
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Create necessary directories
 RUN mkdir -p /srv/shiny-server/www/vendor \
@@ -33,7 +30,6 @@ RUN install2.r --error --skipinstalled -n 2 \
     config \
     dplyr \
     golem \
-    htmltools \
     deckgl \
     reactable \
     reactablefmtr \
@@ -41,8 +37,6 @@ RUN install2.r --error --skipinstalled -n 2 \
     rlang \
     scales \
     htmlwidgets \
-    V8 \
-    grDevices \
     memoise
 
 # Copy application files
@@ -51,13 +45,11 @@ COPY R /srv/shiny-server/R
 COPY DESCRIPTION /srv/shiny-server/DESCRIPTION
 COPY NAMESPACE /srv/shiny-server/NAMESPACE
 COPY data /srv/shiny-server/data
-
-# Ensure www directory exists and copy any existing www content
 COPY www /srv/shiny-server/www/
 
 RUN Rscript -e 'remotes::install_local("/srv/shiny-server", dependencies = FALSE)'
 
-# Copy your existing shiny configuration
+# Copy configuration and app entry point
 COPY shiny.config /etc/shiny-server/shiny-server.conf
 COPY app.R /srv/shiny-server/app.R
 

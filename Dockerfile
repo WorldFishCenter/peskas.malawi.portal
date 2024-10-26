@@ -17,7 +17,6 @@ RUN install2.r --error --skipinstalled -n 4 \
     config \
     dplyr \
     golem \
-    htmltools \
     deckgl \
     reactable \
     reactablefmtr \
@@ -25,8 +24,6 @@ RUN install2.r --error --skipinstalled -n 4 \
     rlang \
     scales \
     htmlwidgets \
-    V8 \
-    grDevices \
     memoise
 
 # Final stage

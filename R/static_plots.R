@@ -7,8 +7,6 @@
 #'
 #' @return An apexchart object
 #'
-#' @importFrom apexcharter apex ax_chart ax_xaxis ax_yaxis ax_grid ax_colors ax_stroke
-#' @importFrom rlang sym
 homecard_ts_plot <- function(data, x_col = "date_month", y_col, type = "area") {
   # Pre-compute the symbols
   y_sym <- rlang::sym(y_col)
@@ -54,8 +52,6 @@ homecard_ts_plot_memo <- memoise::memoise(homecard_ts_plot)
 #' @param pitch Map pitch in degrees (default: 45)
 #' @param zoom Initial zoom level (default: 7)
 #'
-#' @return A deckgl object
-#' @import deckgl
 hexagon_map <- memoise::memoise(function(data,
                                          radius = 3000,
                                          elevation_scale = 80,
@@ -135,9 +131,6 @@ hexagon_map <- memoise::memoise(function(data,
 #' @param color_pal Color palette for the background gradient (default: c("#ffffd9", "#c7e9b4", "#41b6c4"))
 #'
 #' @return A reactable object
-#' @import reactable
-#' @import dplyr
-#' @import scales
 district_summary_table <- memoise::memoise(function(data,
                                                     color_pal = c("#ffffd9", "#c7e9b4", "#41b6c4")) {
   # Cache the color palette function

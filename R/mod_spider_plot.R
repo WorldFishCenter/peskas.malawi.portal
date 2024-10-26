@@ -32,9 +32,9 @@ mod_spider_server <- function(id, metric_col, data = peskas.malawi.portal::spide
         data = data,
         type = "radar",
         mapping = apexcharter::aes(
-          x = month,
+          x = .data$month,
           y = !!metric_sym,
-          group = District
+          group = .data$District
         )
       ) %>%
         apexcharter::ax_legend(position = "bottom") %>%
@@ -56,6 +56,6 @@ mod_spider_server <- function(id, metric_col, data = peskas.malawi.portal::spide
 
       plot
     }) %>%
-      bindCache(metric_col, data, col_palette)  # Cache based on inputs that would change the plot
+      bindCache(metric_col, data, col_palette) # Cache based on inputs that would change the plot
   })
 }

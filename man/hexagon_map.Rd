@@ -17,9 +17,6 @@ hexagon_map(data, radius = 3000, elevation_scale = 80, pitch = 45, zoom = 6.5)
 
 \item{zoom}{Initial zoom level (default: 7)}
 }
-\value{
-A deckgl object
-}
 \description{
 Generate a hexagon heatmap using deckgl
 }

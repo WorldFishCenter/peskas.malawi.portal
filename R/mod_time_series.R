@@ -62,13 +62,13 @@ mod_ts_server <- function(id, metric_col) {
       if (input$district != "All districts") {
         selected <- peskas.malawi.portal::timeseries_month %>%
           dplyr::filter(.data$sample_district == input$district) %>%
-          dplyr::select(date_month, sample_district, dplyr::all_of(metric_col))
+          dplyr::select("date_month", "sample_district", dplyr::all_of(metric_col))
         dplyr::bind_rows(all_districts, selected)
       } else {
         all_districts
       }
     }) %>%
-      bindCache(input$district, metric_col)  # Cache based on both inputs
+      bindCache(input$district, metric_col) # Cache based on both inputs
 
     # Cached mean calculation
     mean_value <- reactive({
@@ -82,12 +82,12 @@ mod_ts_server <- function(id, metric_col) {
       data <- plot_data()
 
       apexcharter::apex(data,
-                        type = "line",
-                        mapping = apexcharter::aes(
-                          x = .data$date_month,
-                          y = .data[[metric_col]],
-                          group = .data$sample_district
-                        )
+        type = "line",
+        mapping = apexcharter::aes(
+          x = .data$date_month,
+          y = .data[[metric_col]],
+          group = .data$sample_district
+        )
       ) %>%
         apexcharter::ax_chart(
           toolbar = list(show = TRUE),

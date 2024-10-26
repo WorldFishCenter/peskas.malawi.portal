@@ -178,4 +178,3 @@ spider_data <-
 
 
 usethis::use_data(spider_data, overwrite = TRUE)
-
