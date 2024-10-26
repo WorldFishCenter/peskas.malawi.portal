@@ -6,9 +6,14 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # Leave this function for adding external resources
-    apexchart_dep(),
-    jquery_dep(),
+    # Load local dependencies instead of CDN dependencies
+    tags$head(
+      tags$link(rel = "stylesheet", href = "www/vendor/tabler.min.css"),
+      tags$script(src = "www/vendor/jquery.min.js"),
+      tags$script(src = "www/vendor/apexcharts.min.js"),
+      tags$script(src = "www/vendor/deck.min.js"),
+      tags$script(src = "www/vendor/tabler.min.js", defer = "defer")
+    ),
     # Your application UI logic
     tabler_page(
       title = "Peskas | Malawi",
@@ -99,21 +104,13 @@ golem_add_external_resources <- function() {
   )
 }
 
+#' Remove the old dependency functions since we're using local files now
 apexchart_dep <- function() {
   htmltools::htmlDependency(
     name = "apexcharts",
     version = "3.26.2",
-    src = c(href = "https://cdn.jsdelivr.net/npm/apexcharts@3.26.2/dist/"),
+    src = "www/vendor",
     script = "apexcharts.min.js"
-  )
-}
-
-deckgl_dep <- function() {
-  htmltools::htmlDependency(
-    name = "deckgl",
-    version = "3.26.2",
-    src = c(href = "https://cdn.jsdelivr.net/npm/deck.gl@9.0.34/dist/"),
-    script = "index.js"
   )
 }
 
@@ -121,7 +118,16 @@ jquery_dep <- function() {
   htmltools::htmlDependency(
     name = "jquery",
     version = "3.6.0",
-    src = c(href = "https://code.jquery.com/"),
-    script = "jquery-3.6.0.min.js"
+    src = "www/vendor",
+    script = "jquery.min.js"
+  )
+}
+
+deckgl_dep <- function() {
+  htmltools::htmlDependency(
+    name = "deckgl",
+    version = "9.0.34",
+    src = "www/vendor",
+    script = "deck.min.js"
   )
 }
