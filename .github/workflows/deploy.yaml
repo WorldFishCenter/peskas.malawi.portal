@@ -74,12 +74,12 @@ jobs:
           service: peskas-malawi-shiny
           image: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/peskas-malawi-shiny/${{ github.sha }}
           flags: >-
-            --cpu=2
-            --memory=6Gi
-            --concurrency=10
-            --max-instances=10
-            --min-instances=2
-            --execution-environment=gen2
+           --cpu=2
+           --memory=4Gi
+           --concurrency=40
+           --max-instances=10
+           --min-instances=2
+
           region: europe-west1
 
       - name: Show Output
