@@ -22,6 +22,13 @@ app_server <- function(input, output, session) {
     selected_district = reactive(input$`catch-district`)
   )
 
+  mod_treemap_server(
+    id = "catch_treemap",
+    data = peskas.malawi.portal::treeplot_data,
+    selected_district = reactive(input$`catch-district`),
+    type = "cpue"
+  )
+
   # REVENUE TAB
   mod_ts_server(
     id = "revenue_ts",
@@ -34,5 +41,12 @@ app_server <- function(input, output, session) {
     metric_col = "Catch Value (MWK)",
     data = peskas.malawi.portal::spider_data,
     selected_district = reactive(input$`revenue-district`)
+  )
+
+  mod_treemap_server(
+    id = "revenue_treemap",
+    data = peskas.malawi.portal::treeplot_data,
+    selected_district = reactive(input$`revenue-district`),
+    type = "rpue"
   )
 }

@@ -25,7 +25,9 @@ Imports:
     htmlwidgets,
     htmltools,
     memoise,
-    magrittr
+    magrittr,
+    purrr,
+    viridisLite
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

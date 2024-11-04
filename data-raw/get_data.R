@@ -187,3 +187,43 @@ spider_data <-
 
 
 usethis::use_data(spider_data, overwrite = TRUE)
+
+
+
+treeplot_data <-
+  summary_data %>%
+  dplyr::filter(n_fishers != 0 & trip_length != 0) %>%
+  dplyr::mutate(
+    cpue = (catch_kg / n_fishers) / trip_length,
+    rpue = (catch_price / n_fishers) / trip_length,
+  ) %>%
+  # First calculate district-specific values
+  dplyr::group_by(sample_district, gear) %>%
+  dplyr::summarise(
+    cpue = mean(cpue, na.rm = TRUE),
+    rpue = mean(rpue, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  # Then calculate "All districts" values
+  dplyr::bind_rows(
+    dplyr::group_by(., gear) %>%
+      dplyr::summarise(
+        sample_district = "All districts",
+        cpue = mean(cpue, na.rm = TRUE),
+        rpue = mean(rpue, na.rm = TRUE),
+        .groups = "drop"
+      )
+  ) %>%
+  dplyr::mutate(
+    cpue = round(cpue, 3),
+    rpue = round(rpue, 3),
+    gear = ifelse(gear == "other_gear", "Other gears", gear)
+  ) %>%
+  tidyr::pivot_longer(cols = c(cpue, rpue), names_to = "metric", values_to = "value") %>%
+  dplyr::ungroup() %>%
+  tidyr::complete(sample_district, gear, metric, fill = list(value = NA_real_)) %>%
+  split(.$metric) %>%
+  purrr::map(~ .x %>% dplyr::select(-metric)) %>%
+  purrr::map(~ .x %>% dplyr::arrange(sample_district, dplyr::desc(value)))
+
+usethis::use_data(treeplot_data, overwrite = TRUE)

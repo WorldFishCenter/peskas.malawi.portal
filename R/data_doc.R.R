@@ -30,10 +30,18 @@
 #' @format A data frame
 "map_data"
 
-#' timeseries_month
+#' table_data
 #'
 #' Data for the home reactable table
 #' @docType data
 #' @usage data(table_data)
 #' @format A data frame
 "table_data"
+
+#' treeplot_data
+#'
+#' Data for the tree plotl
+#' @docType data
+#' @usage data(treeplot_data)
+#' @format A data frame
+"treeplot_data"

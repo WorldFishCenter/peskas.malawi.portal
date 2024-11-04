@@ -15,8 +15,8 @@ card <- function(title = "Card title", ..., tooltip = NULL) {
   # Add custom CSS for transparent tooltip
   tooltip_css <- tags$style("
     .popover {
-      background-color: rgba(255, 255, 255, 0.7) !important;
-      backdrop-filter: blur(2px);
+      background-color: rgba(255, 255, 255, 0.6) !important;
+      backdrop-filter: blur(3px);
     }
     .popover .arrow::after {
       border-right-color: rgba(255, 255, 255, 0.9) !important;

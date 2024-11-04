@@ -9,14 +9,17 @@
 #' @export
 tab_revenue_content <- function() {
   tagList(
-    page_heading(
-      pretitle = "small scale fisheries",
-      title = "Revenue"
+    tags$div(
+      class = "mb-4",
+      page_heading(
+        pretitle = "small scale fisheries",
+        title = "Revenue"
+      )
     ),
     district_selector("revenue-district"),
     page_cards(
       tags$div(
-        class = "row",
+        class = "row g-2",
         tags$div(
           class = "col-lg-8",
           card(
@@ -29,6 +32,17 @@ tab_revenue_content <- function() {
           card(
             title = "Revenue seasonal distribution",
             mod_spider_ui("revenue_spider")
+          )
+        )
+      ),
+      tags$div(
+        class = "row g-2",
+        tags$div(
+          class = "col-12",
+          card(
+            title = "Revenue rates by gear",
+            tooltip = "Average revenue per unit effort (MWK/hrs) by fishing gear type",
+            mod_treemap_ui("revenue_treemap")
           )
         )
       )

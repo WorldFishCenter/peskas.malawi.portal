@@ -37,7 +37,10 @@ RUN install2.r --error --skipinstalled -n 2 \
     rlang \
     scales \
     htmlwidgets \
-    memoise
+    memoise \
+    purrr \
+    viridisLite
+
 
 # Copy application files
 COPY inst /srv/shiny-server/inst

@@ -24,7 +24,10 @@ RUN install2.r --error --skipinstalled -n 4 \
     rlang \
     scales \
     htmlwidgets \
-    memoise
+    memoise \
+    purrr \
+    viridisLite
+
 
 # Final stage
 FROM rocker/shiny
