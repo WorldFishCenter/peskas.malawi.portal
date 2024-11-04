@@ -133,12 +133,20 @@ usethis::use_data(map_data, overwrite = TRUE)
 
 table_data <-
   summary_data %>%
+  dplyr::filter(n_fishers != 0 & trip_length != 0) %>%
+  dplyr::mutate(
+    price_kg = catch_price / catch_kg,
+    cpue = (catch_kg / n_fishers) / trip_length
+  ) %>%
   dplyr::group_by(sample_district) %>%
-  dplyr::summarise(dplyr::across(c(catch_kg, catch_price, price_kg_USD), ~ mean(.x, na.rm = TRUE))) %>%
+  dplyr::summarise(dplyr::across(c(catch_kg, cpue, catch_price, price_kg, n_fishers, trip_length), ~ mean(.x, na.rm = TRUE))) %>%
   dplyr::rename(
     "Catch (kg)" = catch_kg,
+    "Catch per unit effort (kg)" = cpue,
     "Catch Value (MWK)" = catch_price,
-    "Price per kg (USD)" = price_kg_USD
+    "Price per kg (MWK)" = price_kg,
+    "Trip length (hrs)" = trip_length,
+    "N. fishers" = n_fishers
   )
 
 usethis::use_data(table_data, overwrite = TRUE)
@@ -150,13 +158,14 @@ spider_data <-
   summary_data %>%
   dplyr::mutate(
     month = lubridate::month(landing_date, label = TRUE, abbr = TRUE),
-    month = as.character(month)
+    month = as.character(month),
+    price_kg = catch_price / catch_kg
   ) %>%
   dplyr::group_by(sample_district, month) %>%
   dplyr::summarise(
     catch_kg = median(catch_kg, na.rm = TRUE),
-    catch_price = median(catch_price, na.rm = TRUE),
-    price_kg_USD = median(price_kg_USD, na.rm = TRUE)
+    catch_price = median(price_kg, na.rm = TRUE),
+    price_kg = median(price_kg, na.rm = TRUE),
   ) %>%
   dplyr::ungroup() %>%
   tidyr::complete(month, sample_district, fill = list(catch_kg = NA_real_)) %>%
@@ -164,7 +173,7 @@ spider_data <-
     "District" = sample_district,
     "Catch (kg)" = catch_kg,
     "Catch Value (MWK)" = catch_price,
-    "Price per kg (USD)" = price_kg_USD
+    "Price per kg (MWK)" = price_kg
   )
 
 month_order <- c(

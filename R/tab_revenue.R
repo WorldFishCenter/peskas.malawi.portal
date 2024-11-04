@@ -4,7 +4,7 @@
 #' This function creates the layout and content for the revenue tab of the dashboard.
 #' It includes a time series plot and a revenue distribution plot.
 #'
-#' @return A tagList containing the structured content for the catch tab
+#' @return A tagList containing the structured content for the revenue tab
 #'
 #' @export
 tab_revenue_content <- function() {
@@ -13,6 +13,7 @@ tab_revenue_content <- function() {
       pretitle = "small scale fisheries",
       title = "Revenue"
     ),
+    district_selector("revenue-district"),
     page_cards(
       tags$div(
         class = "row",

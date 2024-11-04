@@ -1,10 +1,4 @@
-#' Generate content for the catch tab of the Malawi small scale fisheries dashboard
-#'
-#' @description
-#' This function creates the layout and content for the catch tab of the dashboard.
-#' It includes a time series plot and a catch distribution plot.
-#'
-#' @return A tagList containing the structured content for the catch tab
+#' Generate content for the catch tab
 #'
 #' @export
 tab_catch_content <- function() {
@@ -13,6 +7,7 @@ tab_catch_content <- function() {
       pretitle = "small scale fisheries",
       title = "Catch"
     ),
+    district_selector("catch-district"),
     page_cards(
       tags$div(
         class = "row",

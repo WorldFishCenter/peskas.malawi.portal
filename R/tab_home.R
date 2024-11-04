@@ -51,10 +51,18 @@ tab_home_content <- function() {
         height = "500px"
       ),
       card(
-        title = "District summary",
-        district_summary_table(
-          peskas.malawi.portal::table_data
-        )
+        title = "Districts summary",
+        mod_district_summary_table_ui("district_table"),
+        tooltip = "
+    <p>This table shows the average values per fishing trip for each district:</p>
+    <ul class='mb-0'>
+      <li>Catch: Average catch per trip (kg)</li>
+      <li>CPUE: Average catch per fisher per hour (kg/fisher/hr)</li>
+      <li>Catch Value: Average catch value per trip</li>
+      <li>Price per kg: Average price per kilogram</li>
+      <li>N. fishers: Average number of fishers per trip</li>
+      <li>Trip length: Average trip duration (hrs)</li>
+    </ul>"
       )
     )
   )

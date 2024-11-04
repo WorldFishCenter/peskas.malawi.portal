@@ -2,14 +2,10 @@
 % Please edit documentation in R/tab_catch.R
 \name{tab_catch_content}
 \alias{tab_catch_content}
-\title{Generate content for the catch tab of the Malawi small scale fisheries dashboard}
+\title{Generate content for the catch tab}
 \usage{
 tab_catch_content()
 }
-\value{
-A tagList containing the structured content for the catch tab
-}
 \description{
-This function creates the layout and content for the catch tab of the dashboard.
-It includes a time series plot and a catch distribution plot.
+Generate content for the catch tab
 }

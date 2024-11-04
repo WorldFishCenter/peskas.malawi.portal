@@ -7,7 +7,7 @@
 tab_revenue_content()
 }
 \value{
-A tagList containing the structured content for the catch tab
+A tagList containing the structured content for the revenue tab
 }
 \description{
 This function creates the layout and content for the revenue tab of the dashboard.

@@ -1,35 +1,8 @@
 #' catch_ts UI Function
-#'
-#' @description A shiny Module for displaying catch time series, integrated with Tabler layout.
-#'
-#' @param id,input,output,session Internal parameters for {shiny}.
-#'
 #' @noRd
-#'
-#' @importFrom shiny NS tagList selectInput
-#' @importFrom apexcharter apexchartOutput
 mod_ts_ui <- function(id) {
   ns <- NS(id)
   tagList(
-    tags$div(
-      class = "row",
-      tags$div(
-        class = "col-md-4 col-lg-3", # Adjust these classes to control the width
-        tags$div(
-          class = "form-group",
-          tags$label(class = "form-label", `for` = ns("district"), "Select District"),
-          tags$select(
-            id = ns("district"),
-            class = "form-select",
-            tags$option(value = "All districts", "All districts"),
-            lapply(
-              setdiff(unique(peskas.malawi.portal::timeseries_month$sample_district), "All districts"),
-              function(x) tags$option(value = x, x)
-            )
-          )
-        )
-      )
-    ),
     apexcharter::apexchartOutput(ns("time_series_plot"), height = "400px")
   )
 }
@@ -39,7 +12,7 @@ mod_ts_ui <- function(id) {
 #' @noRd
 #' @importFrom dplyr %>% group_by summarise filter bind_rows mutate
 #' @importFrom apexcharter apex renderApexchart ax_yaxis ax_colors ax_legend ax_tooltip
-mod_ts_server <- function(id, metric_col) {
+mod_ts_server <- function(id, metric_col, selected_district = NULL) {
   moduleServer(id, function(input, output, session) {
     # Static settings moved outside reactive contexts
     line_colors <- c("#AB9B96", "#D34F73")
@@ -49,7 +22,8 @@ mod_ts_server <- function(id, metric_col) {
 
     # Cached data processing
     plot_data <- reactive({
-      req(input$district)
+      district <- selected_district()
+      req(district)
 
       all_districts <- peskas.malawi.portal::timeseries_month %>%
         dplyr::group_by(.data$date_month) %>%
@@ -59,25 +33,25 @@ mod_ts_server <- function(id, metric_col) {
           .groups = "drop"
         )
 
-      if (input$district != "All districts") {
+      if (district != "All districts") {
         selected <- peskas.malawi.portal::timeseries_month %>%
-          dplyr::filter(.data$sample_district == input$district) %>%
+          dplyr::filter(.data$sample_district == district) %>%
           dplyr::select("date_month", "sample_district", dplyr::all_of(metric_col))
         dplyr::bind_rows(all_districts, selected)
       } else {
         all_districts
       }
     }) %>%
-      bindCache(input$district, metric_col) # Cache based on both inputs
+      bindCache(selected_district(), metric_col)
 
     # Cached mean calculation
     mean_value <- reactive({
       data <- plot_data()
       mean(data[[metric_col]], na.rm = TRUE)
     }) %>%
-      bindCache(input$district, metric_col)
+      bindCache(selected_district(), metric_col)
 
-    # Cached plot rendering
+    # Plot rendering
     output$time_series_plot <- apexcharter::renderApexchart({
       data <- plot_data()
 
@@ -112,27 +86,29 @@ mod_ts_server <- function(id, metric_col) {
           position = "bottom",
           fontSize = 15
         ) %>%
-        apexcharter::ax_theme(mode = "light") %>%
         apexcharter::ax_annotations(
           yaxis = list(
             list(
               y = mean_value(),
-              borderColor = "#DB7F67",
+              borderColor = "#885053",
+              borderWidth = 2, # Make the line thicker
               label = list(
                 text = paste("Mean", gsub("\\.", " ", metric_col)),
                 style = list(
-                  color = "#000000",
-                  background = "#DB7F67"
+                  color = "#F1FAEE",
+                  background = scales::alpha("#885053", 0.7), # Add transparency to background
+                  padding = list(
+                    left = 10,
+                    right = 10,
+                    top = 5,
+                    bottom = 5
+                  )
                 )
               )
             )
           )
         )
     }) %>%
-      bindCache(input$district, metric_col)
+      bindCache(selected_district(), metric_col)
   })
 }
-## To be copied in the UI
-# mod_catch_ts_ui("catch_ts_1")
-## To be copied in the server
-# mod_catch_ts_server("catch_ts_1")

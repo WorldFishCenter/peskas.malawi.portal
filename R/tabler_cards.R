@@ -11,23 +11,51 @@ page_cards <- function(...) {
   )
 }
 
-card <- function(title = "Card title", ...) {
+card <- function(title = "Card title", ..., tooltip = NULL) {
+  # Add custom CSS for transparent tooltip
+  tooltip_css <- tags$style("
+    .popover {
+      background-color: rgba(255, 255, 255, 0.7) !important;
+      backdrop-filter: blur(2px);
+    }
+    .popover .arrow::after {
+      border-right-color: rgba(255, 255, 255, 0.9) !important;
+    }
+  ")
+
+  tooltip_element <- if (!is.null(tooltip)) {
+    tagList(
+      tooltip_css,
+      tags$span(
+        class = "form-help ms-2",
+        `data-bs-toggle` = "popover",
+        `data-bs-trigger` = "hover focus",
+        `data-bs-placement` = "right",
+        `data-bs-html` = "true",
+        `data-bs-content` = tooltip,
+        "?"
+      )
+    )
+  } else {
+    NULL
+  }
+
   tags$div(
-    class = "col-12", # Full width on all screen sizes
+    class = "col-12",
     tags$div(
       class = "card",
       tags$div(
         class = "card-body",
         tags$h3(
           class = "card-title",
-          title
+          title,
+          tooltip_element
         ),
         ...
       )
     )
   )
 }
-
 
 #' Create a small card with an embedded plot that fills the entire card and ensures visible tooltip
 #'
@@ -79,6 +107,39 @@ map_card <- function(map, height = "400px") {
         class = "card-body p-0", # Remove padding
         style = "height: 100%;", # Ensure full height
         map
+      )
+    )
+  )
+}
+
+
+#' Create district selector
+#'
+#' @param id ID for the selector (e.g., "catch-district" or "revenue-district")
+#' @param data Dataset containing the sample_district column
+#' @param width Optional width for the selector container (default: "col-md-4 col-lg-3")
+#'
+#' @return A div containing the styled district selector
+#' @noRd
+district_selector <- function(id, data = peskas.malawi.portal::timeseries_month, width = "col-md-4 col-lg-3") {
+  tags$div(
+    class = "container-xl mb-3",
+    tags$div(
+      class = "row",
+      tags$div(
+        class = width,
+        selectInput(
+          inputId = id,
+          label = "Select District",
+          choices = c(
+            "All districts",
+            setdiff(
+              unique(data$sample_district),
+              "All districts"
+            )
+          ),
+          selected = "All districts"
+        )
       )
     )
   )

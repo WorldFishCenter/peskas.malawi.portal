@@ -20,7 +20,7 @@ attachment::att_amend_desc()
 
 ## Add modules ----
 ## Create a module infrastructure in R/
-golem::add_module(name = "table_info", with_test = TRUE) # Name of the module
+golem::add_module(name = "district_summary_table", with_test = FALSE) # Name of the module
 golem::add_module(name = "time_series", with_test = TRUE) # Name of the module
 golem::add_module(name = "spider_plot", with_test = TRUE) # Name of the module
 
