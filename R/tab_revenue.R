@@ -12,7 +12,7 @@ tab_revenue_content <- function() {
     tags$div(
       class = "mb-4",
       page_heading(
-        pretitle = "small scale fisheries",
+        pretitle = "Malawi SSF",
         title = "Revenue"
       )
     ),
@@ -41,7 +41,16 @@ tab_revenue_content <- function() {
           class = "col-12",
           card(
             title = "Revenue rates by gear",
-            tooltip = "Average revenue per unit effort (MWK/hrs) by fishing gear type",
+            tooltip = "
+    <p>This visualization shows the average revenue generated per unit of effort (RPUE) for each fishing gear type:</p>
+    <ul class='mb-0'>
+      <li>RPUE is calculated as revenue (MWK) per fisher per hour</li>
+      <li>Size of boxes indicates relative RPUE for each gear type</li>
+      <li>Colors help distinguish between different gear types</li>
+      <li>Higher RPUE suggests more economically efficient fishing methods</li>
+      <li>Values are averaged across all fishing trips for the selected district</li>
+    </ul>
+  ",
             mod_treemap_ui("revenue_treemap")
           )
         )

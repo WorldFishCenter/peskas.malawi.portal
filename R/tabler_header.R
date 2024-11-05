@@ -4,31 +4,119 @@
 #' @param ... html tags to be included on the right hand side of the header
 #'
 header <- function(..., logo = NULL) {
-  htmltools::tags$header(
-    class = "navbar navbar-expand-md navbar-light d-print-none",
-    htmltools::tags$div(
-      class = "container-xl",
-      htmltools::tags$button(
-        class = "navbar-toggler",
-        type = "button",
-        `data-bs-toggle` = "collapse",
-        `data-bs-target` = "#navbar-menu",
-        htmltools::tags$span(class = "navbar-toggler-icon")
-      ),
-      htmltools::tags$h1(
-        class = "navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3",
-        htmltools::tags$a(
-          href = ".",
-          logo
+  tags$a(
+    href = ".",
+    logo
+  )
+}
+
+
+#' Create sticky navigation structure
+#' @noRd
+stick_nav <- function(header_content, menu_content) {
+  tags$div(
+    class = "sticky-top",
+    # First header with logo and right elements
+    tags$header(
+      class = "navbar navbar-expand-md navbar-light d-print-none",
+      tags$div(
+        class = "container-xl",
+        tags$button(
+          class = "navbar-toggler",
+          type = "button",
+          `data-bs-toggle` = "collapse",
+          `data-bs-target` = "#navbar-menu",
+          tags$span(class = "navbar-toggler-icon")
+        ),
+        tags$h1(
+          class = "navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3",
+          header_content
         )
-      ),
-      htmltools::tags$div(
-        class = "navbar-nav flex-row order-md-last",
-        ...
+      )
+    ),
+    # Second header with navigation menu
+    tags$header(
+      class = "navbar-expand-md",
+      tags$div(
+        class = "collapse navbar-collapse",
+        id = "navbar-menu",
+        tags$div(
+          class = "navbar",
+          tags$div(
+            class = "container-xl",
+            menu_content
+          )
+        )
       )
     )
   )
 }
+
+#' Create a navigation menu
+#'
+#' Creates a navigation menu that controls tab panels created with
+#' `tabset_panel()`. The id of the menu and the panel must match.
+#'
+#' @param ... Navigation menu items created with `navigation_menu_item()`
+#' @param id HTML element ID
+#'
+#' @return a shiny tag
+#'
+tab_menu <- function(..., id = "") {
+  menu_items <- list(...)
+  if (length(menu_items) >= 1) {
+    menu_items[[1]]$children[[1]] <-
+      tagAppendAttributes(menu_items[[1]]$children[[1]], class = "active")
+  }
+
+  tags$ul(
+    class = "nav navbar-nav shiny-tab-input",
+    id = id,
+    `data-tabsetid` = id,
+    role = "tablist",
+    menu_items
+  )
+}
+
+
+#' Create a navigation menu item
+#'
+#' @param label Text to display
+#' @param id unique tab-name
+#' @param icon_svg icon for the menu
+#'
+#' @seealso tab_menu
+tab_menu_item <- function(label = "", id = "", icon_svg = NULL) {
+  icon <- if (!is.null(icon_svg)) {
+    tags$span(
+      class = "nav-link-icon d-md-none d-lg-inline-block",
+      icon_svg
+    )
+  } else {
+    list()
+  }
+
+  tags$li(
+    class = "nav-item",
+    role = "presentation",
+    tags$a(
+      class = "nav-link",
+      id = paste0(id, "-menu"),
+      `data-bs-toggle` = "tab",
+      `data-bs-target` = paste0("#", id),
+      `aria-controls` = id,
+      `data-value` = id,
+      `data-toggle` = "tab",
+      href = paste0("#", id),
+      icon,
+      tags$span(
+        class = "nav-link-title",
+        label
+      )
+    )
+  )
+}
+
 
 
 peskas_logo <- function() {

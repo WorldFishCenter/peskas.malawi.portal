@@ -6,7 +6,7 @@ tab_catch_content <- function() {
     tags$div(
       class = "mb-4",
       page_heading(
-        pretitle = "small scale fisheries",
+        pretitle = "Malawi SSF",
         title = "Catch"
       )
     ),
@@ -37,7 +37,16 @@ tab_catch_content <- function() {
           class = "col-12",
           card(
             title = "Catch rates by gear",
-            tooltip = "Average catch per unit effort (kg/hrs) by fishing gear type",
+            tooltip = "
+    <p>This visualization shows the average catch per unit of effort (CPUE) for each fishing gear type:</p>
+    <ul class='mb-0'>
+      <li>CPUE is calculated as catch (kg) per fisher per hour</li>
+      <li>Size of boxes indicates relative CPUE for each gear type</li>
+      <li>Colors help distinguish between different gear types</li>
+      <li>Higher CPUE suggests more efficient fishing methods</li>
+      <li>Values are averaged across all fishing trips for the selected district</li>
+    </ul>
+  ",
             mod_treemap_ui("catch_treemap")
           )
         )

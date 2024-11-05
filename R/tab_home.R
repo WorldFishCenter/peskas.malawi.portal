@@ -23,7 +23,7 @@
 tab_home_content <- function() {
   tagList(
     page_heading(
-      pretitle = "small scale fisheries",
+      pretitle = "Malawi SSF",
       title = "Home"
     ),
     alert(

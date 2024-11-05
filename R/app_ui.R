@@ -10,15 +10,12 @@ app_ui <- function(request) {
     tags$head(
       # Core dependencies first
       tags$script(src = "www/vendor/jquery.min.js"),
-
       # Then UI framework
       tags$link(rel = "stylesheet", href = "www/vendor/tabler.min.css"),
-      tags$script(src = "www/vendor/tabler.min.js", defer = FALSE), # Remove defer to ensure it loads before others
-
+      tags$script(src = "www/vendor/tabler.min.js", defer = FALSE),
       # Then visualization libraries
       tags$script(src = "www/vendor/apexcharts.min.js"),
       tags$script(src = "www/vendor/deck.min.js"),
-
       # Add loading check
       tags$script("
         window.addEventListener('load', function() {
@@ -30,36 +27,72 @@ app_ui <- function(request) {
         });
       ")
     ),
-    # Your application UI logic
     tabler_page(
       title = "Peskas | Malawi",
-      header(
-        logo = peskas_logo(),
-        version_flex(
-          heading = "Management Dashboard",
-          subheading = "Malawi (0.0.0.9000 - beta)"
+      # Sticky navigation wrapper
+      tags$div(
+        class = "sticky-top",
+        # Main header with logo and version
+        tags$header(
+          class = "navbar navbar-expand-md navbar-light d-print-none",
+          tags$div(
+            class = "container-xl",
+            tags$button(
+              class = "navbar-toggler",
+              type = "button",
+              `data-bs-toggle` = "collapse",
+              `data-bs-target` = "#navbar-menu",
+              tags$span(class = "navbar-toggler-icon")
+            ),
+            tags$h1(
+              class = "navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3",
+              tags$a(
+                href = ".",
+                peskas_logo()
+              )
+            ),
+            tags$div(
+              class = "navbar-nav flex-row order-md-last",
+              version_flex(
+                heading = "Management Dashboard",
+                subheading = "Malawi (0.0.0.9000 - beta)"
+              )
+            )
+          )
+        ),
+        # Navigation menu header
+        tags$header(
+          class = "navbar-expand-md",
+          tags$div(
+            class = "collapse navbar-collapse",
+            id = "navbar-menu",
+            tags$div(
+              class = "navbar",
+              tags$div(
+                class = "container-xl",
+                tab_menu(
+                  tab_menu_item(
+                    label = "Home",
+                    id = "home",
+                    icon_svg = icon_home()
+                  ),
+                  tab_menu_item(
+                    label = "Catch",
+                    id = "catch",
+                    icon_svg = icon_scale()
+                  ),
+                  tab_menu_item(
+                    label = "Revenue",
+                    id = "revenue",
+                    icon_svg = icon_currency_dollar()
+                  )
+                )
+              )
+            )
+          )
         )
       ),
-      tab_menu(
-        tab_menu_item(
-          label = tagList(
-            "Home",
-          ),
-          id = "home", icon_home()
-        ),
-        tab_menu_item(
-          label = tagList(
-            "Catch"
-          ),
-          id = "catch", icon_scale()
-        ),
-        tab_menu_item(
-          label = tagList(
-            "Revenue"
-          ),
-          id = "revenue", icon_currency_dollar()
-        )
-      ),
+      # Tab content
       tabset_panel(
         menu_id = "main_tabset",
         tab_panel(
@@ -75,6 +108,7 @@ app_ui <- function(request) {
           tab_revenue_content()
         )
       ),
+      # Footer
       footer_panel(
         left_side_elements = tags$li(
           class = "list-inline-item",
