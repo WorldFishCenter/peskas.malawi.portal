@@ -47,18 +47,18 @@ timeseries_month <-
   dplyr::summarise(
     catch_kg = median(catch_kg, na.rm = TRUE),
     catch_price = median(catch_price, na.rm = TRUE),
-    price_kg_USD = median(price_kg_USD, na.rm = TRUE)
+    price_kg = median(price_kg, na.rm = TRUE)
   ) %>%
   dplyr::ungroup() %>%
   tidyr::complete(sample_district, date_month, fill = list(
     catch_kg = NA_real_,
     catch_price = NA_real_,
-    price_kg_USD = NA_real_
+    price_kg = NA_real_
   )) %>%
   dplyr::rename(
     "Catch (kg)" = catch_kg,
     "Catch Value (MWK)" = catch_price,
-    "Price per kg (USD)" = price_kg_USD
+    "Price per kg (MWK)" = price_kg
   )
 
 usethis::use_data(timeseries_month, overwrite = TRUE)
