@@ -37,9 +37,7 @@ run_app <- function(
 #' @export
 start_fun <- function(global_pars = TRUE) {
   if (isTRUE(global_pars)) {
-    .app_env$pars <- config::get(file = system.file("golem-config.yml",
-      package = "peskas.malawi.portal"
-    ))
+    .app_env$pars <- config::get(file = "inst/golem-config.yml")
   }
   invisible(.app_env$pars)
 }
