@@ -25,3 +25,28 @@ run_app <- function(
     golem_opts = list(...)
   )
 }
+
+#' Application parameters environment
+#' @keywords internal
+.app_env <- new.env(parent = emptyenv())
+
+#' Shiny Application starting function
+#'
+#' @param global_pars Set global parameters
+#' @return Invisibly returns the loaded parameters
+#' @export
+start_fun <- function(global_pars = TRUE) {
+  if (isTRUE(global_pars)) {
+    .app_env$pars <- config::get(file = system.file("golem-config.yml",
+      package = "peskas.malawi.portal"
+    ))
+  }
+  invisible(.app_env$pars)
+}
+
+#' Get application parameters
+#' @keywords internal
+#' @noRd
+get_pars <- function() {
+  .app_env$pars
+}

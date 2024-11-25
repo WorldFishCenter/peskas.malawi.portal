@@ -1,6 +1,6 @@
 library(magrittr)
 
-config <- config::get(file = "inst/golem-config.yml")
+config <- config::get(file = system.file("golem-config.yml", package = "peskas.malawi.portal"))
 
 mdb_collection_pull <- function(connection_string = NULL, collection_name = NULL, db_name = NULL) {
   # Connect to the MongoDB collection
@@ -29,6 +29,61 @@ mdb_collection_pull <- function(connection_string = NULL, collection_name = NULL
   return(data)
 }
 
+#' Prepare tracks data for map visualization
+#'
+#' @description
+#' Pre-processes tracking data to create optimized path data for map visualization.
+#' This function should be run during data download/update, not during Shiny runtime.
+#'
+#' @param tracks_data Raw tracks data from MongoDB
+#' @return A list containing processed paths data with pre-calculated properties
+#'
+#' @export
+prepare_tracks_for_map <- function(tracks_data) {
+  # Pre-process the paths data
+  paths_df <- tracks_data %>%
+    dplyr::arrange(Trip, time) %>%
+    dplyr::group_by(Trip) %>%
+    dplyr::summarise(
+      path = list(as.matrix(cbind(lon, lat))),
+      catch_kg = dplyr::first(catch_kg),
+      catch_taxon = dplyr::first(catch_taxon),
+      trip_duration = as.numeric(difftime(dplyr::last(time),
+        dplyr::first(time),
+        units = "hours"
+      )),
+      # Pre-calculate center coordinates for each path
+      center_lon = mean(lon),
+      center_lat = mean(lat),
+      # Pre-calculate any other useful metrics
+      total_distance = sum(sqrt(diff(lon)^2 + diff(lat)^2)),
+      n_points = dplyr::n()
+    )
+
+  # Pre-calculate overall bounds and centers
+  bounds <- list(
+    lon = range(tracks_data$lon, na.rm = TRUE),
+    lat = range(tracks_data$lat, na.rm = TRUE)
+  )
+
+  center <- list(
+    lon = mean(bounds$lon),
+    lat = mean(bounds$lat)
+  )
+
+  # Return as a list with metadata
+  list(
+    paths = paths_df,
+    bounds = bounds,
+    center = center,
+    summary = list(
+      n_trips = nrow(paths_df),
+      total_catch = sum(paths_df$catch_kg, na.rm = TRUE),
+      mean_duration = mean(paths_df$trip_duration, na.rm = TRUE)
+    )
+  )
+}
+
 summary_data <-
   mdb_collection_pull(
     connection_string = config$storage$mongodb$connection_string,
@@ -37,6 +92,17 @@ summary_data <-
   ) %>%
   dplyr::as_tibble() %>%
   dplyr::mutate(landing_date = as.Date(landing_date))
+
+tracks_df <- mdb_collection_pull(
+  connection_string = config$storage$mongodb$connection_string,
+  collection_name = config$storage$mongodb$collection_name$matched,
+  db_name = config$storage$mongodb$database_name
+) %>%
+  dplyr::as_tibble() %>%
+  prepare_tracks_for_map()
+
+usethis::use_data(tracks_df, overwrite = TRUE)
+
 
 timeseries_month <-
   summary_data %>%
@@ -227,3 +293,23 @@ treeplot_data <-
   purrr::map(~ .x %>% dplyr::arrange(sample_district, dplyr::desc(value)))
 
 usethis::use_data(treeplot_data, overwrite = TRUE)
+
+
+
+
+#### get validation tables
+validation_table <-
+  mdb_collection_pull(
+    connection_string = config$storage$mongodb$connection_string,
+    collection_name = "validation_table",
+    db_name = "pipeline"
+  ) %>%
+  dplyr::as_tibble() %>%
+  dplyr::rowwise() %>%
+  dplyr::mutate(
+    vessel_number = ifelse(alert_number == "", NA_real_, vessel_number),
+    catch_number = ifelse(alert_number == "", NA_real_, catch_number)
+  ) %>%
+  dplyr::distinct()
+
+usethis::use_data(validation_table, overwrite = TRUE)

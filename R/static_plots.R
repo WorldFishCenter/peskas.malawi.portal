@@ -12,6 +12,32 @@ homecard_ts_plot <- function(data, x_col = "date_month", y_col, type = "area") {
   y_sym <- rlang::sym(y_col)
   x_sym <- rlang::sym(x_col)
 
+  # Extract unique years from the date column
+  unique_years <- unique(format(data[[x_col]], "%Y"))
+  year_annotations <- lapply(unique_years, function(year) {
+    year_start <- as.POSIXct(paste0(year, "-01-01"), tz = "UTC")
+    year_start_ts <- as.numeric(year_start) * 1000 # Convert to JS timestamp
+
+    list(
+      x = year_start_ts,
+      strokeDashArray = 0, # Solid line
+      borderColor = "#CCCCCC", # Line color
+      label = list(
+        text = year,
+        offsetX = 20, # Move label slightly to the right
+        offsetY = -10, # Adjust vertical placement
+        style = list(
+          color = "#41b6c4", # Match the line color
+          background = "transparent", # Fully transparent background
+          fontSize = "12px",
+          fontWeight = "bold", # Make the text bold for clarity
+          padding = 0 # Remove unnecessary padding
+        )
+      )
+    )
+  })
+
+  # Create the chart
   data %>%
     apexcharter::apex(
       apexcharter::aes(x = !!x_sym, y = !!y_sym),
@@ -34,7 +60,10 @@ homecard_ts_plot <- function(data, x_col = "date_month", y_col, type = "area") {
     ) %>%
     apexcharter::ax_grid(show = FALSE) %>%
     apexcharter::ax_colors("#41b6c4") %>%
-    apexcharter::ax_stroke(width = 1)
+    apexcharter::ax_stroke(width = 1) %>%
+    apexcharter::ax_annotations(
+      xaxis = year_annotations # Add vertical line annotations
+    )
 }
 
 #' Memoised version of homecard_ts_plot
@@ -42,85 +71,3 @@ homecard_ts_plot <- function(data, x_col = "date_month", y_col, type = "area") {
 #' @inheritParams homecard_ts_plot
 #' @export
 homecard_ts_plot_memo <- memoise::memoise(homecard_ts_plot)
-
-
-#' Generate a hexagon heatmap using deckgl
-#'
-#' @param data A dataframe containing the map data with 'lat' and 'lon' columns
-#' @param radius Radius of hexagons in meters (default: 3000)
-#' @param elevation_scale Elevation scale for 3D effect (default: 80)
-#' @param pitch Map pitch in degrees (default: 45)
-#' @param zoom Initial zoom level (default: 7)
-#'
-hexagon_map <- memoise::memoise(function(data,
-                                         radius = 3000,
-                                         elevation_scale = 80,
-                                         pitch = 45,
-                                         zoom = 6.5) {
-  # Cache center calculations
-  center_lon <- stats::median(data$lon, na.rm = TRUE)
-  center_lat <- stats::median(data$lat, na.rm = TRUE)
-
-  # Static configurations
-  color_range <- list(
-    c(1, 152, 189),
-    c(73, 227, 206),
-    c(216, 254, 181),
-    c(254, 237, 177),
-    c(254, 173, 84),
-    c(209, 55, 78)
-  )
-
-  props <- list(
-    autoHighlight = TRUE,
-    material = list(
-      ambient = 0.65,
-      diffuse = 0.35,
-      specularColor = c(51, 51, 51)
-    ),
-    transitions = list(
-      elevationScale = 3000
-    )
-  )
-
-  # Cache the tooltip function
-  tooltip_js <- memoise::memoise(function() {
-    htmlwidgets::JS("object => {
-      const totalActivities = object.points.length;
-      return `
-        <div padding: 10px; border-radius: 5px;'>
-          <strong>Location:</strong> ${object.position[1].toFixed(3)}, ${object.position[0].toFixed(3)}<br>
-          <strong>Total Activities:</strong> ${totalActivities}
-        </div>
-      `;
-    }")
-  })
-
-  deckgl::deckgl(
-    longitude = center_lon,
-    latitude = center_lat,
-    zoom = zoom,
-    pitch = pitch,
-    width = "100%",
-    height = "100%",
-    style = list(position = "absolute", top = 0, left = 0, right = 0, bottom = 0)
-  ) %>%
-    deckgl::add_basemap(
-      style = deckgl::use_carto_style(theme = "dark-matter")
-    ) %>%
-    deckgl::add_hexagon_layer(
-      data = data,
-      getPosition = ~ c(lon, lat),
-      colorRange = color_range,
-      elevationRange = c(0, 3000),
-      elevationScale = elevation_scale,
-      extruded = TRUE,
-      radius = radius,
-      coverage = 0.8,
-      pickable = TRUE,
-      properties = props,
-      tooltip = tooltip_js(),
-      colorAggregation = "SUM",
-      upperPercentile = 95
-    )
-})

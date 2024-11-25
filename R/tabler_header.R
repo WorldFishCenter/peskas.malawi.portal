@@ -118,7 +118,6 @@ tab_menu_item <- function(label = "", id = "", icon_svg = NULL) {
 }
 
 
-
 peskas_logo <- function() {
   htmltools::tags$div(
     htmltools::tags$span(
@@ -138,6 +137,27 @@ version_flex <- function(heading = "Heading",
     htmltools::tags$small(
       class = "text-muted",
       subheading
+    )
+  )
+}
+
+district_selector_navbar <- function(id, data) {
+  tags$form(
+    class = "d-flex",
+    id = "district-selector",
+    style = "margin-left: auto; margin-right: 10px;",
+    div(
+      class = "custom-district-select",
+      selectInput(
+        inputId = id,
+        label = NULL,
+        choices = c(
+          "All districts",
+          setdiff(unique(data$sample_district), "All districts")
+        ),
+        selected = "All districts",
+        width = "200px"
+      )
     )
   )
 }

@@ -26,20 +26,20 @@ RUN cd /srv/shiny-server/www/vendor \
 # Extra R packages
 RUN install2.r --error --skipinstalled -n 2 \
     remotes \
-    apexcharter \
-    config \
     dplyr \
-    golem \
-    deckgl \
     reactable \
-    reactablefmtr \
-    shiny \
-    rlang \
-    scales \
-    htmlwidgets \
+    deckgl \
+    htmltools \
     memoise \
+    apexcharter \
+    reactablefmtr \
+    magrittr \
+    scales \
+    rlang \
     purrr \
-    viridisLite
+    viridisLite \
+    config \
+    httr2
 
 
 # Copy application files

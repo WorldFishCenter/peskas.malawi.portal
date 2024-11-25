@@ -99,15 +99,12 @@ small_card <- function(title = "Card title", plot) {
 # map card
 map_card <- function(map, height = "400px") {
   tags$div(
-    class = "col-12", # Full width on all screen sizes
+    class = "card p-0",
+    style = sprintf("height: %s; position: relative;", height), # Add relative positioning here
     tags$div(
-      class = "card p-0", # Remove padding
-      style = sprintf("height: %s; overflow: hidden;", height),
-      tags$div(
-        class = "card-body p-0", # Remove padding
-        style = "height: 100%;", # Ensure full height
-        map
-      )
+      class = "card-body p-0",
+      style = "height: 100%;",
+      map
     )
   )
 }

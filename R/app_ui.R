@@ -6,6 +6,7 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
+    shinyjs::useShinyjs(),
     # Load dependencies in specific order
     tags$head(
       # Core dependencies first
@@ -16,6 +17,7 @@ app_ui <- function(request) {
       # Then visualization libraries
       tags$script(src = "www/vendor/apexcharts.min.js"),
       tags$script(src = "www/vendor/deck.min.js"),
+      tags$script(src = "www/hexagon_tooltips.js"),
       # Add loading check
       tags$script("
         window.addEventListener('load', function() {
@@ -32,7 +34,6 @@ app_ui <- function(request) {
       # Sticky navigation wrapper
       tags$div(
         class = "sticky-top",
-        # Main header with logo and version
         tags$header(
           class = "navbar navbar-expand-md navbar-light d-print-none",
           tags$div(
@@ -51,12 +52,14 @@ app_ui <- function(request) {
                 peskas_logo()
               )
             ),
+            district_selector_navbar("district", peskas.malawi.portal::timeseries_month),
             tags$div(
               class = "navbar-nav flex-row order-md-last",
               version_flex(
                 heading = "Management Dashboard",
                 subheading = "Malawi (0.0.0.9000 - beta)"
-              )
+              ),
+              user_ui()
             )
           )
         ),
@@ -112,7 +115,7 @@ app_ui <- function(request) {
       footer_panel(
         left_side_elements = tags$li(
           class = "list-inline-item",
-          "Last update",
+          paste0("Last update ", Sys.Date()),
         ),
         right_side_elements = tagList(
           inline_li_link(
@@ -125,7 +128,8 @@ app_ui <- function(request) {
           )
         ),
         bottom = "Copyright \u00a9 2024 Peskas. All rights reserved."
-      )
+      ),
+      validation_modal()
     )
   )
 }

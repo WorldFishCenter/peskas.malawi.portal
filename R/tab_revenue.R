@@ -16,7 +16,7 @@ tab_revenue_content <- function() {
         title = "Revenue"
       )
     ),
-    district_selector("revenue-district"),
+    # district_selector("revenue-district"),
     page_cards(
       tags$div(
         class = "row g-2",

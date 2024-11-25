@@ -64,12 +64,7 @@ tab_home_content <- function() {
         class = "row g-2",
         tags$div(
           class = "col-12",
-          map_card(
-            hexagon_map(
-              peskas.malawi.portal::map_data
-            ),
-            height = "500px"
-          )
+          mod_hex_map_ui("hex_map")
         )
       ),
       # Third row - District summary table

@@ -11,25 +11,27 @@ Authors@R:
              role = "cph"))
 Description: A web portal displaying data and insights from small fisheries in Malawi.
 License: Apache License (>= 2)
-Imports: 
-    apexcharter,
+Imports:
+    shiny (>= 1.9.1),
+    golem (>= 0.4.1),
     config (>= 0.3.2),
     dplyr,
-    golem (>= 0.4.1),
-    deckgl,
     reactable,
-    reactablefmtr,
-    shiny (>= 1.9.1),
-    rlang,
-    scales,
-    htmlwidgets,
+    deckgl,
     htmltools,
     memoise,
+    apexcharter,
+    reactablefmtr,
     magrittr,
+    scales,
+    rlang
+Suggests:
+    htmlwidgets,
     purrr,
-    viridisLite
-Suggests: 
-    testthat (>= 3.0.0)
+    viridisLite,
+    lubridate,
+    shinyjs,
+    testthat (>= 3.0.0)    
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

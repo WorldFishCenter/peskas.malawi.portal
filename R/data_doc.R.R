@@ -45,3 +45,17 @@
 #' @usage data(treeplot_data)
 #' @format A data frame
 "treeplot_data"
+
+#' Tracking data
+#'
+#' Tracking data for visualization
+#'
+#' @format A data frame
+"tracks_df"
+
+#' Validation table data
+#'
+#' Data for validation interface
+#'
+#' @format A data frame with submission information
+"validation_table"

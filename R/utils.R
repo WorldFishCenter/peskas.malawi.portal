@@ -15,3 +15,7 @@ read_config <- function() {
   )
   pars
 }
+
+#' Load configuration parameters
+#' @noRd
+utils::globalVariables("pars")

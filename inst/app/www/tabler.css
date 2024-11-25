@@ -26028,3 +26028,49 @@ Antialiasing
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
 }
+
+.tooltip-content {
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  padding: 10px;
+  color: white;
+  font-family: system-ui;
+}
+
+.tooltip-header {
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+.tooltip-body p {
+  margin: 5px 0;
+}
+
+.custom-district-select .selectize-control {
+  width: 175px !important;  /* Adjust this value as needed */
+}
+
+.custom-district-select .selectize-input {
+  background-color: #448FA3 !important;
+  border: none !important;
+  border-radius: 5px !important;
+  width: 100% !important;
+}
+
+.custom-district-select .selectize-input.has-items > div,
+.custom-district-select .selectize-input input {
+  color: white !important;
+  font-size: 14px !important;
+}
+
+.custom-district-select .selectize-input::after {
+  border-color: white transparent transparent transparent !important;
+}
+
+.custom-district-select .selectize-dropdown {
+  margin-top: 4px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}

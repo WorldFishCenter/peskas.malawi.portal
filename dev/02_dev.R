@@ -24,6 +24,8 @@ golem::add_module(name = "district_summary_table", with_test = FALSE) # Name of 
 golem::add_module(name = "time_series", with_test = TRUE) # Name of the module
 golem::add_module(name = "spider_plot", with_test = TRUE) # Name of the module
 golem::add_module(name = "gear_treemap", with_test = FALSE) # Name of the module
+golem::add_module(name = "validation", with_test = FALSE) # Name of the module
+golem::add_module(name = "hex_map", with_test = FALSE) # Name of the module
 
 
 ## Add helper functions ----

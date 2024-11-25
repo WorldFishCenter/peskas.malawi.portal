@@ -4,18 +4,28 @@ default:
   app_prod: no
   deployment:
     google_key: !expr readLines('auth/gcp-sa-peskas_ingestion-key.json')
+  kobo:
+    asset_id: !expr readLines('auth/asset_id')
+    token: !expr readLines('auth/kobo_token')
   storage:
     mongodb:
       connection_string: !expr readLines('auth/mongodb-connection-string')
       database_name: app
       collection_name:
         summaries: DataSummaries
+        matched: matched_trips_gps
   mapbox_token: !expr readLines('auth/mapbox-token')
+  validation:
+    user: !expr readLines('auth/username')
+    pass: !expr readLines('auth/password')
 
 production:
   app_prod: yes
   deployment:
+    asset_id: !expr Sys.getenv('ASSET_ID')
     google_key: !expr Sys.getenv('GCP_SA_KEY')
+  kobo:
+    token: !expr Sys.getenv('KOBO_TOKEN')
   storage:
     mongodb:
       connection_string: !expr Sys.getenv('MONGODB_CONNECTION_STRING')

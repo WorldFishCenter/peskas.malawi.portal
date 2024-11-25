@@ -10,7 +10,7 @@ tab_catch_content <- function() {
         title = "Catch"
       )
     ),
-    district_selector("catch-district"),
+    # district_selector("catch-district"),
     page_cards(
       # First row of cards - Time series and Spider plot
       tags$div(
