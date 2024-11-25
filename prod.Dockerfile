@@ -40,7 +40,8 @@ RUN install2.r --error --skipinstalled -n 2 \
     viridisLite \
     config \
     httr2 \
-    golem
+    golem \
+    shinyjs
 
 
 # Copy application files
