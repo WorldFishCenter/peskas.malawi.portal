@@ -39,7 +39,8 @@ RUN install2.r --error --skipinstalled -n 2 \
     purrr \
     viridisLite \
     config \
-    httr2
+    httr2 \
+    golem
 
 
 # Copy application files
