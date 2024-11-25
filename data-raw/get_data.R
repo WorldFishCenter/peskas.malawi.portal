@@ -1,6 +1,6 @@
 library(magrittr)
 
-config <- config::get(file = system.file("golem-config.yml", package = "peskas.malawi.portal"))
+config <- config::get(file = "inst/golem-config.yml")
 
 mdb_collection_pull <- function(connection_string = NULL, collection_name = NULL, db_name = NULL) {
   # Connect to the MongoDB collection
