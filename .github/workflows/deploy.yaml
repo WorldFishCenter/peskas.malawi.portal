@@ -40,6 +40,15 @@ jobs:
     name: Deploy Shiny app
     needs: update-data
     runs-on: ubuntu-latest
+    env:
+      R_CONFIG_ACTIVE: production
+      ASSET_ID: ${{ secrets.ASSET_ID }}
+      GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      KOBO_TOKEN: ${{ secrets.KOBO_TOKEN }}
+      MONGODB_CONNECTION_STRING: ${{ secrets.MONGODB_CONNECTION_STRING }}
+      MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
+      VAL_USER: ${{ secrets.VAL_USER }}
+      VAL_PASS: ${{ secrets.VAL_PASS }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
