@@ -20,6 +20,8 @@ jobs:
       KOBO_TOKEN: ${{ secrets.KOBO_TOKEN }}
       MONGODB_CONNECTION_STRING: ${{ secrets.MONGODB_CONNECTION_STRING }}
       MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
+      VAL_USER: ${{ secrets.VAL_USER }}
+      VAL_PASS: ${{ secrets.VAL_PASS }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
