@@ -15,7 +15,9 @@ jobs:
     container: rocker/verse:4.1.0
     env:
       R_CONFIG_ACTIVE: production
+      ASSET_ID: ${{ secrets.ASSET_ID }}
       GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+      KOBO_TOKEN: ${{ secrets.KOBO_TOKEN }}
       MONGODB_CONNECTION_STRING: ${{ secrets.MONGODB_CONNECTION_STRING }}
       MAPBOX_TOKEN: ${{ secrets.MAPBOX_TOKEN }}
     steps:
