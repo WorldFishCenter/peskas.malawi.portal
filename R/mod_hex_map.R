@@ -13,7 +13,7 @@ mod_hex_map_ui <- function(id) {
 
   tags$div(
     class = "position-relative",
-    style = "height: 500px;",  # Fixed height container
+    style = "height: 500px;", # Fixed height container
     map_card(
       hexagon_map(
         data = peskas.malawi.portal::map_data,
@@ -24,11 +24,11 @@ mod_hex_map_ui <- function(id) {
         path_opacity = 0.6,
         radius = 600
       ),
-      height = "100%"  # Fill container
+      height = "100%" # Fill container
     ),
     map_info_panel(ns, color_styles)
   )
-}#' Hex Map Server Module
+} #' Hex Map Server Module
 #' @noRd
 mod_hex_map_server <- function(id) {
   moduleServer(id, function(input, output, session) {
@@ -58,48 +58,51 @@ mod_hex_map_server <- function(id) {
       debounce(100)
 
     # Efficient proxy updates
-    observeEvent(radius_rv(), {
-      req(radius_rv())
+    observeEvent(radius_rv(),
+      {
+        req(radius_rv())
 
-      deckgl::deckgl_proxy(session$ns("map")) %>%
-        deckgl::add_hexagon_layer(
-          data = peskas.malawi.portal::map_data,
-          getPosition = ~ c(lon, lat),
-          radius = radius_rv(),
-          colorRange = hex_colors,
-          elevationRange = c(0, 3000),
-          elevationScale = 80,
-          extruded = TRUE,
-          coverage = 0.8,
-          pickable = TRUE,
-          properties = hex_properties,
-          tooltip = htmlwidgets::JS("window.hexagonTooltip"),
-          colorAggregation = "SUM",
-          upperPercentile = 95
-        ) %>%
-        deckgl::add_path_layer(
-          data = paths_data,
-          pickable = TRUE,
-          getPath = ~path,
-          getColor = ~ unlist(color),
-          widthScale = 2,
-          widthMinPixels = 1,
-          widthMaxPixels = 2,
-          opacity = 0.6,
-          pickingRadius = 50,
-          parameters = list(
-            lineWidthUnits = "pixels",
-            lineWidthScale = 1
-          ),
-          highlightColor = c(255, 255, 0, 200),
-          autoHighlight = TRUE,
-          billboard = TRUE,
-          capRounded = TRUE,
-          jointRounded = TRUE,
-          tooltip = htmlwidgets::JS("window.pathTooltip")
-        ) %>%
-        deckgl::update_deckgl()
-    }, ignoreInit = TRUE)
+        deckgl::deckgl_proxy(session$ns("map")) %>%
+          deckgl::add_hexagon_layer(
+            data = peskas.malawi.portal::map_data,
+            getPosition = ~ c(lon, lat),
+            radius = radius_rv(),
+            colorRange = hex_colors,
+            elevationRange = c(0, 3000),
+            elevationScale = 80,
+            extruded = TRUE,
+            coverage = 0.8,
+            pickable = TRUE,
+            properties = hex_properties,
+            tooltip = htmlwidgets::JS("window.hexagonTooltip"),
+            colorAggregation = "SUM",
+            upperPercentile = 95
+          ) %>%
+          deckgl::add_path_layer(
+            data = paths_data,
+            pickable = TRUE,
+            getPath = ~path,
+            getColor = ~ unlist(color),
+            widthScale = 2,
+            widthMinPixels = 1,
+            widthMaxPixels = 2,
+            opacity = 0.6,
+            pickingRadius = 50,
+            parameters = list(
+              lineWidthUnits = "pixels",
+              lineWidthScale = 1
+            ),
+            highlightColor = c(255, 255, 0, 200),
+            autoHighlight = TRUE,
+            billboard = TRUE,
+            capRounded = TRUE,
+            jointRounded = TRUE,
+            tooltip = htmlwidgets::JS("window.pathTooltip")
+          ) %>%
+          deckgl::update_deckgl()
+      },
+      ignoreInit = TRUE
+    )
   })
 }
 
@@ -135,7 +138,6 @@ hexagon_map <- memoise::memoise(function(data = NULL,
                                          default_color = "#41b6c4",
                                          path_opacity = 0.5,
                                          path_width = 0.75) {
-
   # Get JS functions
   js_funcs <- get_js_functions()
 
@@ -177,13 +179,13 @@ hexagon_map <- memoise::memoise(function(data = NULL,
     style = list(position = "absolute", top = 0, left = 0, right = 0, bottom = 0)
   ) %>%
     deckgl::add_basemap(
-      #style = "mapbox://styles/langbart/cli8oua4m002a01pg17wt6vqa",
-      #token = get_pars()$mapbox_token
+      # style = "mapbox://styles/langbart/cli8oua4m002a01pg17wt6vqa",
+      # token = get_pars()$mapbox_token
     ) %>%
     # Add hexagon layer
     deckgl::add_hexagon_layer(
       data = data,
-      getPosition = ~ c(lon, lat),  # Changed from c(center_lon, center_lat) to c(lon, lat)
+      getPosition = ~ c(lon, lat), # Changed from c(center_lon, center_lat) to c(lon, lat)
       colorRange = get_hex_colors(),
       elevationRange = c(0, 3000),
       elevationScale = elevation_scale,
@@ -258,7 +260,7 @@ get_hex_props <- memoise::memoise(function() {
 map_info_panel <- function(ns, color_styles) {
   tags$div(
     class = "card shadow-sm",
-    style = "position: absolute; top: 1rem; right: 1rem; width: 300px; background: rgba(255,255,255,0.75); z-index: 1000; border: none; border-radius: 0.5rem; max-height: calc(100% - 2rem); overflow-y: auto; backdrop-filter: blur(2px);",  # Changed alpha to 0.85 and added blur
+    style = "position: absolute; top: 1rem; right: 1rem; width: 300px; background: rgba(255,255,255,0.75); z-index: 1000; border: none; border-radius: 0.5rem; max-height: calc(100% - 2rem); overflow-y: auto; backdrop-filter: blur(2px);", # Changed alpha to 0.85 and added blur
     tags$div(
       class = "card-body p-3",
       # Title
