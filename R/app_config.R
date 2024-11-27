@@ -1,17 +1,18 @@
 #' Access files in the current app
 #'
-#' NOTE: If you manually change your package name in the DESCRIPTION,
-#' don't forget to change it here too, and in the config file.
-#' For a safer name change mechanism, use the `golem::set_golem_name()` function.
-#'
 #' @param ... character vectors, specifying subdirectory and file(s)
-#' within your package. The default, none, returns the root of the app.
+#' within your package.
 #'
 #' @noRd
 app_sys <- function(...) {
-  system.file(..., package = "peskas.malawi.portal")
+  if (Sys.getenv("R_CONFIG_ACTIVE") == "production") {
+    # In production (Cloud Run), use the direct path
+    file.path("/srv/shiny-server", ...)
+  } else {
+    # In development, use system.file
+    system.file(..., package = "peskas.malawi.portal")
+  }
 }
-
 
 #' Read App Config
 #'
@@ -32,8 +33,30 @@ get_golem_config <- function(
       )
     ),
     use_parent = TRUE,
-    # Modify this if your config file is somewhere else
+    # Changed from inst/golem-config.yml to just golem-config.yml
     file = app_sys("golem-config.yml")) {
+
+  # Add debug logging
+  message("Loading config from: ", file)
+  message("Config environment: ", config)
+
+  if (!file.exists(file)) {
+    warning("Config file not found at: ", file)
+    # Try alternative locations
+    alt_files <- c(
+      "/srv/shiny-server/golem-config.yml",
+      "/srv/shiny-server/inst/golem-config.yml"
+    )
+
+    for (alt_file in alt_files) {
+      if (file.exists(alt_file)) {
+        message("Using alternative config file: ", alt_file)
+        file <- alt_file
+        break
+      }
+    }
+  }
+
   config::get(
     value = value,
     config = config,

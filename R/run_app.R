@@ -40,32 +40,21 @@ run_app <- function(
 #' @export
 start_fun <- function(global_pars = TRUE) {
   if (isTRUE(global_pars)) {
-    # Load configuration based on environment
-    config <- config::get(file = "inst/golem-config.yml")
+    tryCatch({
+      # Load configuration based on environment
+      .app_env$pars <- config::get(file = system.file("golem-config.yml", package = "peskas.malawi.portal"))
 
-    # Validate critical environment variables in production
-    if (Sys.getenv("R_CONFIG_ACTIVE") == "production") {
-      required_vars <- c(
-        "VAL_USER", "VAL_PASS", "MAPBOX_TOKEN",
-        "KOBO_TOKEN", "ASSET_ID", "GCP_SA_KEY"
-      )
-
-      missing_vars <- required_vars[vapply(required_vars, function(x) {
-        val <- Sys.getenv(x)
-        is.null(val) || val == ""
-      }, logical(1))]
-
-      if (length(missing_vars) > 0) {
-        warning("Missing required environment variables: ",
-                paste(missing_vars, collapse = ", "))
+      # In production, override with environment variables
+      if (Sys.getenv("R_CONFIG_ACTIVE") == "production") {
+        .app_env$pars$mapbox_token <- Sys.getenv("MAPBOX_TOKEN")
+        # Log for debugging
+        message("Production environment detected")
+        message("Mapbox token set: ", nzchar(Sys.getenv("MAPBOX_TOKEN")))
       }
-
-      # Ensure validation credentials are properly set
-      config$validation$user <- Sys.getenv("VAL_USER", "")
-      config$validation$pass <- Sys.getenv("VAL_PASS", "")
-    }
-
-    .app_env$pars <- config
+    }, error = function(e) {
+      warning("Error loading configuration: ", e$message)
+      return(NULL)
+    })
   }
   invisible(.app_env$pars)
 }
@@ -76,8 +65,11 @@ start_fun <- function(global_pars = TRUE) {
 get_pars <- function() {
   pars <- .app_env$pars
   if (is.null(pars)) {
-    # Reload configuration if not initialized
+    message("Parameters not initialized, attempting to reload...")
     pars <- start_fun()
+  }
+  if (is.null(pars$mapbox_token)) {
+    warning("Mapbox token not found in configuration")
   }
   pars
 }
