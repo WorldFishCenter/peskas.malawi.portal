@@ -13,9 +13,6 @@ run_app <- function(
     enableBookmarking = NULL,
     uiPattern = "/",
     ...) {
-
-  start_fun()
-
   with_golem_options(
     app = shinyApp(
       ui = app_ui,
@@ -40,36 +37,14 @@ run_app <- function(
 #' @export
 start_fun <- function(global_pars = TRUE) {
   if (isTRUE(global_pars)) {
-    tryCatch({
-      # Load configuration based on environment
-      .app_env$pars <- config::get(file = system.file("golem-config.yml", package = "peskas.malawi.portal"))
-
-      # In production, override with environment variables
-      if (Sys.getenv("R_CONFIG_ACTIVE") == "production") {
-        .app_env$pars$mapbox_token <- Sys.getenv("MAPBOX_TOKEN")
-        # Log for debugging
-        message("Production environment detected")
-        message("Mapbox token set: ", nzchar(Sys.getenv("MAPBOX_TOKEN")))
-      }
-    }, error = function(e) {
-      warning("Error loading configuration: ", e$message)
-      return(NULL)
-    })
+    .app_env$pars <- config::get(file = "inst/golem-config.yml")
   }
   invisible(.app_env$pars)
 }
 
-#' Get application parameters with fallback
+#' Get application parameters
 #' @keywords internal
 #' @noRd
 get_pars <- function() {
-  pars <- .app_env$pars
-  if (is.null(pars)) {
-    message("Parameters not initialized, attempting to reload...")
-    pars <- start_fun()
-  }
-  if (is.null(pars$mapbox_token)) {
-    warning("Mapbox token not found in configuration")
-  }
-  pars
+  .app_env$pars
 }

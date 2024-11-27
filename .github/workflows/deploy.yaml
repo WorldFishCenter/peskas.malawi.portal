@@ -77,7 +77,7 @@ jobs:
         with:
           service: peskas-malawi-shiny
           image: europe-west1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/peskas-malawi-shiny/${{ github.sha }}
-          env_vars:
+          env_vars: |
             R_CONFIG_ACTIVE=production
             ASSET_ID=${{ secrets.ASSET_ID }}
             KOBO_TOKEN=${{ secrets.KOBO_TOKEN }}

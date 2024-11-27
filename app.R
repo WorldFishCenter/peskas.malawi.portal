@@ -1,19 +1,7 @@
 # Launch the ShinyApp (Do not remove this comment)
-options("golem.app.prod" = TRUE)
+# To deploy, run: rsconnect::deployApp()
+# Or use the blue button on top of this file
 
-# Ensure R_CONFIG_ACTIVE is set
-if (Sys.getenv("R_CONFIG_ACTIVE") == "") {
-  Sys.setenv(R_CONFIG_ACTIVE = "production")
-}
-
-# Initialize parameters explicitly
-tryCatch({
-  params <- peskas.malawi.portal::start_fun()
-  # Add debug logging
-  message("Mapbox token available: ", !is.null(params$mapbox_token))
-  message("Config environment: ", Sys.getenv("R_CONFIG_ACTIVE"))
-}, error = function(e) {
-  message("Error initializing parameters: ", e$message)
-})
-
-peskas.malawi.portal::run_app()
+# pkgload::load_all(export_all = FALSE,helpers = FALSE,attach_testthat = FALSE)
+options( "golem.app.prod" = TRUE)
+peskas.malawi.portal::run_app() # add parameters here (if any)
