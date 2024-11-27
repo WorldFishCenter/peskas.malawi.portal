@@ -13,6 +13,9 @@ run_app <- function(
     enableBookmarking = NULL,
     uiPattern = "/",
     ...) {
+
+  start_fun()
+
   with_golem_options(
     app = shinyApp(
       ui = app_ui,
@@ -37,14 +40,44 @@ run_app <- function(
 #' @export
 start_fun <- function(global_pars = TRUE) {
   if (isTRUE(global_pars)) {
-    .app_env$pars <- config::get(file = "inst/golem-config.yml")
+    # Load configuration based on environment
+    config <- config::get(file = "inst/golem-config.yml")
+
+    # Validate critical environment variables in production
+    if (Sys.getenv("R_CONFIG_ACTIVE") == "production") {
+      required_vars <- c(
+        "VAL_USER", "VAL_PASS", "MAPBOX_TOKEN",
+        "KOBO_TOKEN", "ASSET_ID", "GCP_SA_KEY"
+      )
+
+      missing_vars <- required_vars[vapply(required_vars, function(x) {
+        val <- Sys.getenv(x)
+        is.null(val) || val == ""
+      }, logical(1))]
+
+      if (length(missing_vars) > 0) {
+        warning("Missing required environment variables: ",
+                paste(missing_vars, collapse = ", "))
+      }
+
+      # Ensure validation credentials are properly set
+      config$validation$user <- Sys.getenv("VAL_USER", "")
+      config$validation$pass <- Sys.getenv("VAL_PASS", "")
+    }
+
+    .app_env$pars <- config
   }
   invisible(.app_env$pars)
 }
 
-#' Get application parameters
+#' Get application parameters with fallback
 #' @keywords internal
 #' @noRd
 get_pars <- function() {
-  .app_env$pars
+  pars <- .app_env$pars
+  if (is.null(pars)) {
+    # Reload configuration if not initialized
+    pars <- start_fun()
+  }
+  pars
 }
