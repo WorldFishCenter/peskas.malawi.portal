@@ -85,11 +85,11 @@ jobs:
             VAL_USER=${{ secrets.VAL_USER }}
             VAL_PASS=${{ secrets.VAL_PASS }}
           flags: >-
-            --cpu=2
-            --memory=4Gi
+            --cpu=1
+            --memory=2Gi
             --concurrency=40
             --max-instances=10
-            --min-instances=2
+            --min-instances=1
             --timeout=300
             --cpu-boost
             --no-cpu-throttling
