@@ -7,6 +7,7 @@
 app_ui <- function(request) {
   tagList(
     shinyjs::useShinyjs(),
+    google_analytics(),
     # Load dependencies in specific order
     tags$head(
       # Core dependencies first
