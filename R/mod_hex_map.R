@@ -179,8 +179,8 @@ hexagon_map <- memoise::memoise(function(data = NULL,
     style = list(position = "absolute", top = 0, left = 0, right = 0, bottom = 0)
   ) %>%
     deckgl::add_basemap(
-      #style = "mapbox://styles/langbart/cli8oua4m002a01pg17wt6vqa",
-      #token = get_pars()$mapbox_token
+      # style = "mapbox://styles/langbart/cli8oua4m002a01pg17wt6vqa",
+      # token = get_pars()$mapbox_token
     ) %>%
     # Add hexagon layer
     deckgl::add_hexagon_layer(
