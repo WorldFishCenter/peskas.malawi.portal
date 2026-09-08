@@ -5,6 +5,7 @@ on:
       - master
   schedule:
     - cron: '0 1 * * 1'
+  workflow_dispatch:
 
 name: Deploy to Google Cloud Run
 
@@ -39,6 +40,10 @@ jobs:
   deploy:
     name: Deploy Shiny app
     needs: update-data
+    # Deploy even when the data refresh fails. The app serves the committed
+    # data/*.rda files, so an unreachable upstream data source must not block
+    # redeployment of the service.
+    if: ${{ always() && !cancelled() }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

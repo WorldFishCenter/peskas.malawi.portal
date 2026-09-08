@@ -32,7 +32,6 @@ RUN install2.r --error --skipinstalled -n 2 \
     htmltools \
     memoise \
     apexcharter \
-    reactablefmtr \
     magrittr \
     scales \
     rlang \
@@ -43,6 +42,11 @@ RUN install2.r --error --skipinstalled -n 2 \
     golem \
     shinyjs
 
+
+# reactablefmtr was archived from CRAN on 2026-03-17; install its last
+# release (2.0.0) from the CRAN source archive.
+RUN Rscript -e 'remotes::install_version("reactablefmtr", version = "2.0.0", repos = "https://cloud.r-project.org", upgrade = "never")' \
+    && Rscript -e 'stopifnot(requireNamespace("reactablefmtr", quietly = TRUE))'
 
 # Copy application files
 COPY inst /srv/shiny-server/inst
