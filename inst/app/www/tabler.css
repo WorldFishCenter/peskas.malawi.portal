@@ -26074,3 +26074,27 @@ Antialiasing
   border: none;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
+
+/* Partner and funder logos in the footer */
+.footer-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem 2.5rem;
+}
+
+.footer-logo {
+  width: auto;
+  height: auto;
+  max-height: 72px;
+  max-width: 220px;
+  object-fit: contain;
+}
+
+/* Stacked or horizontal lockups need more room for their wordmark to stay
+   legible than a compact circular mark does. */
+.footer-logo-wide {
+  max-height: 88px;
+  max-width: 250px;
+}

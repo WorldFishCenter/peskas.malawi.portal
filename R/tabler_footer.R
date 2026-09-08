@@ -1,4 +1,4 @@
-footer_panel <- function(right_side_elements = tagList(), left_side_elements = tagList(), bottom = "") {
+footer_panel <- function(right_side_elements = tagList(), left_side_elements = tagList(), logos = NULL, bottom = "") {
   tags$footer(
     class = "footer footer-transparent d-print-none",
     tags$div(
@@ -20,6 +20,7 @@ footer_panel <- function(right_side_elements = tagList(), left_side_elements = t
           )
         )
       ),
+      logos,
       tags$div(
         class = "row text-center align-items-center flex-row-reverse mt-3",
         tags$div(
@@ -29,6 +30,48 @@ footer_panel <- function(right_side_elements = tagList(), left_side_elements = t
           )
         )
       ),
+    )
+  )
+}
+
+
+#' Creates a single partner or funder logo for the footer
+#'
+#' @param src Image path, relative to the "www" resource prefix registered by
+#'   `tabler_page()` (i.e. files living in `inst/app/www`).
+#' @param alt Organisation name, used as the alternative text and tooltip.
+#' @param class Optional extra CSS class. Use "footer-logo-wide" for stacked or
+#'   horizontal lockups that carry a caption, so the wordmark stays legible.
+#'
+#' @return a shiny tag "img" element
+#' @noRd
+footer_logo <- function(src, alt, class = NULL) {
+  tags$img(
+    src = src,
+    alt = alt,
+    title = alt,
+    class = paste(c("footer-logo", class), collapse = " "),
+    loading = "lazy"
+  )
+}
+
+#' Creates a centred row of partner or funder logos for the footer
+#'
+#' @param ... Logos created with `footer_logo()`
+#'
+#' @return a shiny tag "div" element, or NULL when no logo is given
+#' @noRd
+footer_logos <- function(...) {
+  logos <- list(...)
+  if (length(logos) == 0) {
+    return(NULL)
+  }
+
+  tags$div(
+    class = "row mt-3",
+    tags$div(
+      class = "col-12 footer-logos",
+      logos
     )
   )
 }

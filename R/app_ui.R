@@ -128,6 +128,17 @@ app_ui <- function(request) {
             href = "https://github.com/WorldFishCenter/peskas.malawi.portal"
           )
         ),
+        logos = footer_logos(
+          footer_logo(
+            src = "www/AfDB.png",
+            alt = "African Development Bank Group",
+            class = "footer-logo-wide"
+          ),
+          footer_logo(
+            src = "www/SADC.png",
+            alt = "Southern African Development Community"
+          )
+        ),
         bottom = "Copyright \u00a9 2024 Peskas. All rights reserved."
       ),
       validation_modal()
